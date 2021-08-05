@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include<math.h>
+#include <math.h>
 #include <string.h>
+#include <limits.h>
 
 #define DIM 7
+#define DEPTH 5
 #define PLAYER_1 0
 #define PLAYER_2 1
 #define WHITE 0
@@ -12,6 +14,8 @@
 #define OFFICER 1
 #define YES 1
 #define NO 0
+
+
 
 char end_of_game = 0; //varrà 1 quando il gioco sarà finito
 
@@ -121,7 +125,7 @@ lista_mosse_t *elimina (lista_mosse_t* l){
     if(l->next!=NULL){						
 		elimina(l->next);
 	}
-	free(l);
+	if(l){free(l);}
 	l=NULL;
 	return l;
 }
@@ -290,16 +294,15 @@ lista_mosse_t*  filtrare (lista_mosse_t* l){
 	return l;
 }
 
-int stampa_mosse(lista_mosse_t* l, int i) {
-	i = 0;
-
+void stampa_mosse(lista_mosse_t* l, int* n) {
+	int i = 1;
 	while (l != NULL ) {
-		i++;
 		printf("%2d) %s\n", i,l->descrizione); //qua ho messo 2d così è tutto più ordinato
-		
+		i++;
 		l = l->next;
 	}
-	return i;
+
+	*n = i; //totale mosse
 }
 
 colonna_t* estrai (lista_mosse_t* l, int n){
@@ -314,26 +317,34 @@ colonna_t* estrai (lista_mosse_t* l, int n){
 
 
 
-void check_and_do_promotion (struct colonna* scacchiera ){ //possibilmente da scartare e da implementare in spostamento semplice
+void check_and_do_promotion (struct colonna* scacchiera, int stampa){ //possibilmente da scartare e da implementare in spostamento semplice
    	int j;													
 	for (j=0; j<7; j++){
-		if (scacchiera[6 * 7 + j].torre != NULL) {
-			if (scacchiera[6 * 7 + j].torre[0].colore == 0 && scacchiera[6 * 7 + j].torre[0].stato == 0) { //è bianco
-				scacchiera[6 * 7 + j].torre[0].stato = 1;
-				scacchiera[6 * 7 + j].torre[0].nome -= 32;
-				printf("%c7 è stato promosso", j + 65);
-			}
-		}
+    	if(scacchiera[6*7 + j].torre != NULL){
+        
+            if(scacchiera[6*7 + j].torre[0].colore == WHITE && scacchiera[6*7 + j].torre[0].stato == SOLDIER){ //è bianco ed è soldato
+                scacchiera[6*7 + j].torre[0].stato = OFFICER;
+                scacchiera[6*7 + j].torre[0].nome -= 32;
+				if(stampa){
+					printf("%c7 è stato promosso", j+65);
+				}
+                //stampa == 0 solo in minimax() che è ricorsiva
+            }
+        }
 	}    
+
     
 	for (j=0; j<7; j++){
-		if (scacchiera[0 + j].torre != NULL) {
-			if (scacchiera[0 + j].torre[0].colore == 1 && scacchiera[0 * 7 + j].torre[0].stato == 0) { //è nero
-				scacchiera[0 + j].torre[0].stato = 1;
-				scacchiera[0 + j].torre[0].nome -= 32;
-				printf("%c1 è stato promosso", j + 65);
-			}
-		}
+    	if(scacchiera[0+j].torre != NULL){   
+            if(scacchiera[0+j].torre[0].colore == 1  && scacchiera[0*7 + j].torre[0].stato == 0){ //è nero
+                scacchiera[0+j].torre[0].stato = 1;
+                scacchiera[0+j].torre[0].nome -= 32;
+				if(stampa){
+					printf("%c1 è stato promosso", j+65);
+				}
+                //stampa == 0 solo in minimax() che è ricorsiva
+            }
+        }
 	}    
 }
 
@@ -455,35 +466,160 @@ void campo(int lato, int dim, colonna_t* partita) {
 	printf("\n");
 }
 
+int evaluation (colonna_t* scacchiera){
+	int i = 0;
+	int j = 0;
+	int counter = 0;
+	
+	for(i = 0; i < DIM; i++){
+		for(j = 0; j < DIM; j++){
+			if(scacchiera[i*DIM + j].size){
+				if(scacchiera[i*DIM + j].torre[0].colore == BLACK){
+					counter --;
+				}else{
+					counter ++;
+				}
+			}
+		}
+	}
 
+	return counter;
+}
+int max(int n1, int n2){
+	if(n1 > n2){
+		return n1;
+	}
+	
+	return n2;
+}
 
-int main (){ //ci sono molte cose da ritoccare 
+int min(int n1, int n2){
+	if(n1 < n2){
+		return n1;
+	}
+	
+	return n2;
+}
+
+int minimax(colonna_t* scacchiera, int depth, int player){
+	//i bianchi (0) massimizzano
+	
+	struct lista_mosse* l_og = NULL;
+	struct lista_mosse* l = NULL;
+	l_og = analisi_mosse(l_og, scacchiera, player);
+	l_og = filtrare(l_og);
+	
+	if(depth == 0 || l_og == NULL){
+		return evaluation(scacchiera);
+	}
+
+	if(player == WHITE){
+		int maxEval = INT_MIN;
+		int eval = 0;
+		l = l_og;
+		while(l){
+			check_and_do_promotion (l->scacchiera, 0);
+			eval = minimax(l->scacchiera, depth - 1, !player);
+			maxEval = max(maxEval, eval);
+			l = l->next;
+		}
+		//elimina(l_og);
+		return maxEval;
+
+	}else{
+		int minEval = INT_MAX;
+		int eval = 0;
+		l = l_og;
+		while(l){
+			check_and_do_promotion (l->scacchiera, 0);
+			eval = minimax(l->scacchiera, depth -1, !player);
+			minEval = min(minEval, eval);
+			l = l->next;
+		}
+
+		//elimina(l_og);
+		return minEval;
+	}
+
+}
+
+char* estrai_descrizione (lista_mosse_t* l, int n){
+	int i;
+
+	for(i=1; i<n; i++){ 
+		l=l->next;
+	}
+
+	return l->descrizione;
+}
+
+int macro_ai (colonna_t* scacchiera, struct lista_mosse* l, int depth, int player){
+	//i neri minimizzano e i bianchi massimizzano
+	int max = INT_MIN; 
+	int pos = 0;
+	int  res = 0;
+	if(l){
+		while(l){
+			int new = minimax(l->scacchiera, depth, player);
+			//printf("prova %d \n", pos);
+			if(max < new){
+				max = new;
+				res = pos + 1;
+			}
+
+			pos++;
+			l = l->next;
+		}
+
+		return res;
+	}else{
+		return 0;
+	}
+
+	
+}
+
+int main (){  
 			
 	colonna_t* scacchiera = (colonna_t*) malloc(sizeof(colonna_t) * 49);
 	struct lista_mosse* l = NULL;
 	
 	int n=0, scelta=0;
 	int player = PLAYER_1;
+	int modalita_gioco = 0;
 
-	
 	matrice(scacchiera);
 
+	while(modalita_gioco < 1 || modalita_gioco > 2){
+		printf("Vuoi giocare contro il COMPUTER (1) o contro un altro giocatore(2)? \n");
+		printf("Digita la tua risposta. \n");
+		scanf("%d", &modalita_gioco);
+	}
 	
-	while(!end_of_game){
-		
+
+	if(modalita_gioco == 1){//modalità COMPUTER
 		campo(9,5,scacchiera);
+		printf("PLAYER 1: AI, PLAYER 2: utente \n");
+		printf("player = %d \n", player);
 		printf("turno %c\n",87-(player*21));
+
 		l = analisi_mosse(l, scacchiera, player);
-
-		l = filtrare(l);
-
-		/*stampa lista mosse*/
-		n = stampa_mosse(l, n);
-		if(n==0){ //sono state stampate 0 mosse --> non ci sono più mosse valide da fare
-			end_of_game = 1;
+		if(l == NULL){
+			printf("GAME OVER: ha vinto %c\n",87-(!player*21));
+			exit(EXIT_FAILURE);
 		}
-
-		if(!end_of_game){
+			
+		l = filtrare(l);
+			
+		if(player == PLAYER_1){
+			scelta = macro_ai(scacchiera, l, DEPTH, player);
+			copia_scacchiera(estrai(l,scelta),scacchiera);
+			//stampa descrizione mossa scelta
+			printf("W ha giocato %s\n",estrai_descrizione(l, scelta));
+		}else{ //se gioca l'utente
+			/*stampa lista mosse*/
+			stampa_mosse(l, &n);
+			
 			/*acquisisci ed esegui la mossa scelta*/
 			do{
 				printf("Digita il numero della mossa che desideri eseguire.\n");
@@ -492,19 +628,48 @@ int main (){ //ci sono molte cose da ritoccare
 
 			copia_scacchiera(estrai(l,scelta),scacchiera);
 
-			l=elimina(l);
-			/*eventuale promozione*/
-			check_and_do_promotion (scacchiera);
-
-			
-			/*cambio giocatore*/
-			player= !player;
 		}
-	}
+	
+		l=elimina(l);
+				
+		/*eventuale promozione*/
+		check_and_do_promotion (scacchiera, 1);
 
-	if(end_of_game){
-		printf("GAME OVER");
-		exit(EXIT_FAILURE);
+		/*cambio giocatore*/
+		player= !player;
+		
+	}else{ //per la condizione del while siamo sicuri che o è 1 o è 2
+		
+		campo(9,5,scacchiera);
+		printf("turno %c\n",87-(player*21));
+		l = analisi_mosse(l, scacchiera, player);
+		if(l == NULL){
+			printf("GAME OVER: ha vinto %c\n",87-(!player*21));
+			exit(EXIT_FAILURE);
+		}
+
+		l = filtrare(l);
+
+		/*stampa lista mosse*/
+		stampa_mosse(l, &n);
+			
+
+		/*acquisisci ed esegui la mossa scelta*/
+		do{
+			printf("Digita il numero della mossa che desideri eseguire.\n");
+			scanf("%d", &scelta);
+		}while(scelta > n || scelta<1);
+
+		copia_scacchiera(estrai(l,scelta),scacchiera);
+
+		l=elimina(l);
+		/*eventuale promozione*/
+		check_and_do_promotion (scacchiera, 1);
+
+				
+		/*cambio giocatore*/
+		player= !player;
+		
 	}
 
 	return 0;
