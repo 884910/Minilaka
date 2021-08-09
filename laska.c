@@ -302,7 +302,8 @@ void stampa_mosse(lista_mosse_t* l, int* n) {
 		l = l->next;
 	}
 
-	*n = i; //totale mosse
+	*n = i - 1; //totale mosse
+	/*i - 1 perchè abbiamo incrementato all'ultima iterazione senza sapere che era l'ultima*/
 }
 
 colonna_t* estrai (lista_mosse_t* l, int n){
@@ -523,7 +524,7 @@ int minimax(colonna_t* scacchiera, int depth, int player){
 			maxEval = max(maxEval, eval);
 			l = l->next;
 		}
-		//elimina(l_og);
+		l_og = elimina(l_og);
 		return maxEval;
 
 	}else{
@@ -537,7 +538,7 @@ int minimax(colonna_t* scacchiera, int depth, int player){
 			l = l->next;
 		}
 
-		//elimina(l_og);
+		l_og = elimina(l_og);
 		return minEval;
 	}
 
@@ -598,28 +599,64 @@ int main (){
 	
 
 	if(modalita_gioco == 1){//modalità COMPUTER
-		campo(9,5,scacchiera);
-		printf("PLAYER 1: AI, PLAYER 2: utente \n");
-		printf("player = %d \n", player);
-		printf("turno %c\n",87-(player*21));
+		while(player == PLAYER_1 || player == PLAYER_2){
+			campo(9,5,scacchiera);
+			printf("PLAYER 1: AI, PLAYER 2: utente \n");
+			printf("player = %d \n", player);
+			printf("turno %c\n",87-(player*21));
 
-		l = analisi_mosse(l, scacchiera, player);
-		if(l == NULL){
-			printf("GAME OVER: ha vinto %c\n",87-(!player*21));
-			exit(EXIT_FAILURE);
+			l = analisi_mosse(l, scacchiera, player);
+			if(l == NULL){
+				printf("GAME OVER: ha vinto %c\n",87-(!player*21));
+				exit(EXIT_FAILURE);
+			}
+				
+			l = filtrare(l);
+				
+			if(player == PLAYER_1){
+				scelta = macro_ai(scacchiera, l, DEPTH, player);
+				copia_scacchiera(estrai(l,scelta),scacchiera);
+				//stampa descrizione mossa scelta
+				printf("W ha giocato %s\n",estrai_descrizione(l, scelta));
+			}else{ //se gioca l'utente
+				/*stampa lista mosse*/
+				stampa_mosse(l, &n);
+				
+				/*acquisisci ed esegui la mossa scelta*/
+				do{
+					printf("Digita il numero della mossa che desideri eseguire.\n");
+					scanf("%d", &scelta);
+				}while(scelta > n || scelta<1);
+
+				copia_scacchiera(estrai(l,scelta),scacchiera);
+
+			}
+		
+			l=elimina(l);
+					
+			/*eventuale promozione*/
+			check_and_do_promotion (scacchiera, 1);
+
+			/*cambio giocatore*/
+			player= !player;
 		}
-			
-		l = filtrare(l);
-			
-		if(player == PLAYER_1){
-			scelta = macro_ai(scacchiera, l, DEPTH, player);
-			copia_scacchiera(estrai(l,scelta),scacchiera);
-			//stampa descrizione mossa scelta
-			printf("W ha giocato %s\n",estrai_descrizione(l, scelta));
-		}else{ //se gioca l'utente
+		
+	}else{ //per la condizione del while siamo sicuri che o è 1 o è 2
+		while(player == PLAYER_1 || player == PLAYER_2){
+			campo(9,5,scacchiera);
+			printf("turno %c\n",87-(player*21));
+			l = analisi_mosse(l, scacchiera, player);
+			if(l == NULL){
+				printf("GAME OVER: ha vinto %c\n",87-(!player*21));
+				exit(EXIT_FAILURE);
+			}
+
+			l = filtrare(l);
+
 			/*stampa lista mosse*/
 			stampa_mosse(l, &n);
-			
+				
+
 			/*acquisisci ed esegui la mossa scelta*/
 			do{
 				printf("Digita il numero della mossa che desideri eseguire.\n");
@@ -628,47 +665,14 @@ int main (){
 
 			copia_scacchiera(estrai(l,scelta),scacchiera);
 
+			l=elimina(l);
+			/*eventuale promozione*/
+			check_and_do_promotion (scacchiera, 1);
+
+					
+			/*cambio giocatore*/
+			player= !player;
 		}
-	
-		l=elimina(l);
-				
-		/*eventuale promozione*/
-		check_and_do_promotion (scacchiera, 1);
-
-		/*cambio giocatore*/
-		player= !player;
-		
-	}else{ //per la condizione del while siamo sicuri che o è 1 o è 2
-		
-		campo(9,5,scacchiera);
-		printf("turno %c\n",87-(player*21));
-		l = analisi_mosse(l, scacchiera, player);
-		if(l == NULL){
-			printf("GAME OVER: ha vinto %c\n",87-(!player*21));
-			exit(EXIT_FAILURE);
-		}
-
-		l = filtrare(l);
-
-		/*stampa lista mosse*/
-		stampa_mosse(l, &n);
-			
-
-		/*acquisisci ed esegui la mossa scelta*/
-		do{
-			printf("Digita il numero della mossa che desideri eseguire.\n");
-			scanf("%d", &scelta);
-		}while(scelta > n || scelta<1);
-
-		copia_scacchiera(estrai(l,scelta),scacchiera);
-
-		l=elimina(l);
-		/*eventuale promozione*/
-		check_and_do_promotion (scacchiera, 1);
-
-				
-		/*cambio giocatore*/
-		player= !player;
 		
 	}
 
