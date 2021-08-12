@@ -50,9 +50,9 @@ void copy_board(cols_t* src, cols_t* dst){
 	for(i=0;i<DIM;i++){									
 		for(j=0;j<DIM;j++){
 			if(src[i*DIM+j].tower!=NULL){	
-				if(dst[i*DIM+j].tower == NULL){
+				//if(dst[i*DIM+j].tower == NULL){
 					dst[i*DIM+j].tower = (pawns_t*) malloc(sizeof(pawns_t) * 3);
-				}
+				//}
 				for(k=0;k<3;k++){
 					copy_pawns(&(dst[i*DIM+j].tower[k]),&(src[i*DIM+j].tower[k]));
 				}
@@ -74,23 +74,21 @@ void simple_shift(struct cols* board, int x0, int y0, int xd, int yd){
 }
 
 void capture(struct cols* board, int x0, int y0, int x1, int y1, int xd, int yd) {
-
-	int sizeatt = board[y0 * DIM + x0].size;
-	int sizedef = board[y1 * DIM + x1].size; // ottengo la size di chi viene mangiato
+	int sizeatt = board[y0 * 7 + x0].size;
 	int i;
 
-	
+
 	if (sizeatt != 3) {
-		copy_pawns(&board[y0 * DIM + x0].tower[sizeatt], &board[y1 * DIM + x1].tower[0]);
-		board[y0 * DIM + x0].size++;
+		copy_pawns(&board[y0 * 7 + x0].tower[sizeatt], &board[y1 * 7 + x1].tower[0]);
+		board[y0 * 7 + x0].size++;
 	}
 
-	/*se ci sono 4 copy_board pedine?
-	copio fino alla terza pawns e poi elimino l'altra struct e la sostituisco con quella creata*/
+	/*se ci sono 4 pedine?
+	copio fino alla terza pedina e poi elimino l'altra struct e la sostituisco con quella creata*/
 
 	if (sizeatt > 3) {
-		/*mi basta l'array, perchè con la free libero tower e non l'intera struct cols*/
-		pawns_t* tower = (struct pawns*)malloc(sizeof(pawns_t) * 3);
+		/*mi basta l'array, perchè con la free libero tower e non l'intera struct colonna*/
+		pawns_t* tower = (pawns_t*)malloc(sizeof(pawns_t) * 3);
 		for (int i = 0; i < 3; i++) {
 			copy_pawns(&board[y0 * 7 + x0].tower[i], &tower[i]);
 		}
@@ -115,15 +113,40 @@ void capture(struct cols* board, int x0, int y0, int x1, int y1, int xd, int yd)
 		free(board[y1 * 7 + x1].tower);
 	}
 	simple_shift(board, x0, y0, xd, yd);
+	/*int sizeatt = board[y0 * DIM + x0].size;
+	
+	int i;
+
+	if (sizeatt < 3) {
+		copy_pawns(&board[y0 * DIM + x0].tower[sizeatt], &board[y1 * DIM + x1].tower[0]);
+		board[y0 * DIM + x0].size++;
+	}
+	
+	board[y1 * 7 + x1].size--;
+	if (board[y1 * 7 + x1].size > 0) {
+		for (i = 0; i < board[y1 * 7 + x1].size; i++) {
+			copy_pawns(&board[y1 * 7 + x1].tower[i], &board[y1 * 7 + x1].tower[i + 1]); //la testa è andata via
+		}
+	}
+	else {
+		free(board[y1 * 7 + x1].tower);
+	}
+	simple_shift(board, x0, y0, xd, yd);*/
 }
 
 list_of_moves_t *destroy (list_of_moves_t* l){ 
-    if(l->next!=NULL){						
+	if(l->next!=NULL){						
 		destroy(l->next);
 	}
 	if(l){free(l);}
 	l=NULL;
 	return l;
+    /*if(l == NULL){	
+		return l;					
+	}
+
+	destroy(l->next);
+	free(l);*/	
 }
 
 void fill_description1 (char* desc, int x0, int y0, int xd, int yd){ 
@@ -157,7 +180,7 @@ list_of_moves_t *concat(list_of_moves_t* head, list_of_moves_t* new){
 	return head;
 }
 
-list_of_moves_t *inserimento_simple_shift (list_of_moves_t* l, cols_t* board, int x0, int y0, int xd, int yd){
+list_of_moves_t *insertion_simple_shift (list_of_moves_t* l, cols_t* board, int x0, int y0, int xd, int yd){
 	list_of_moves_t *temp = (struct list_of_moves*) malloc(sizeof(struct list_of_moves));
 	temp->board = (cols_t*) malloc(sizeof(cols_t) * 49);
     copy_board(board, temp->board);
@@ -170,7 +193,7 @@ list_of_moves_t *inserimento_simple_shift (list_of_moves_t* l, cols_t* board, in
 	return l;
 }
 
-list_of_moves_t *inserimento_mossa_capture (list_of_moves_t* l, cols_t* board, int x0, int y0, int x1, int y1, int xd, int yd){
+list_of_moves_t *insertion_capture (list_of_moves_t* l, cols_t* board, int x0, int y0, int x1, int y1, int xd, int yd){
 	list_of_moves_t *temp = (struct list_of_moves*) malloc(sizeof(struct list_of_moves));
     temp->board = (struct cols*) malloc(sizeof(struct cols)*49);
     copy_board(board, temp->board);
@@ -184,64 +207,64 @@ list_of_moves_t *inserimento_mossa_capture (list_of_moves_t* l, cols_t* board, i
 }
 
 
-list_of_moves_t* analisi_mosse (list_of_moves_t* l, struct cols* board, int turno){ 
+list_of_moves_t* moves_analysis (list_of_moves_t* l, struct cols* board, int player){ 
 	int i, j;
-	char color, color_nemico;
+	char color, enemy_color;
 
-	color = turno;
-	color_nemico = 1 - color;
+	color = player;
+	enemy_color = 1 - color;
 	
-	for(i=0;i<7;i++){
-		for(j=0;j<7;j++){
+	for(i = 0; i < DIM; i++){
+		for(j = 0; j < DIM; j++){
 			//ciclo di scan della board
 
-			if(board[i*7+j].tower != NULL){ //controllo se c'è una pawns
+			if(board[i*DIM+j].tower != NULL){ //controllo se c'è una pawns
 				
-				if(board[i*7+j].tower[0].color == color){ //se la pawns è del giocatore del turno corrente
+				if(board[i*DIM+j].tower[0].color == color){ //se la pawns è del giocatore del turno corrente
 
-					if(board[i*7+j].tower[0].rank == OFFICER || (board[i*7+j].tower[0].rank == SOLDIER && color == WHITE)){  //set mosse in giù
-						if(i+1 < 7){ 
+					if(board[i*DIM+j].tower[0].rank == OFFICER || (board[i*DIM+j].tower[0].rank == SOLDIER && color == WHITE)){  //set mosse in giù
+						if(i+1 < DIM){ 
 							//caso spostamento semplice per i bianchi soldati
-							if (j-1>=0){
-								if(board[(i+1)*7 + (j-1)].size == 0){
-									l=inserimento_simple_shift (l, board, j, i, j-1, i+1);	
-								}else if(board[(i+1)*7 + (j-1)].tower[0].color == color_nemico){ //la casella è occupata da qualcuno che potrei mangiare?
-									if (i+2<=7 && j-2>=0 && board[(i+2)*7 + (j-2)].size == 0){ //se oltre il nemico è libero
-										l=inserimento_mossa_capture (l, board, j, i, j-1, i+1, j-2, i+2);			
+							if (j-1 >= 0){
+								if(board[(i+1)*DIM + (j-1)].size == 0){
+									l=insertion_simple_shift (l, board, j, i, j-1, i+1);	
+								}else if(board[(i+1)*DIM + (j-1)].tower[0].color == enemy_color){ //la casella è occupata da qualcuno che potrei mangiare?
+									if (i+2 <= DIM && j-2 >= 0 && board[(i+2)*DIM + (j-2)].size == 0){ //se oltre il nemico è libero
+										l=insertion_capture (l, board, j, i, j-1, i+1, j-2, i+2);			
 									}
 								}
 							}
-							if (j+1<7){
-								if(board[(i+1)*7 + (j+1)].size == 0){
-									l=inserimento_simple_shift (l, board, j, i, j+1, i+1);    
-								}else if(board[(i+1)*7 + (j+1)].tower[0].color == color_nemico){ //la casella è occupata da qualcuno che potrei mangiare?
-									if (i+2<7 && j+2<7 && board[(i+2)*7 + (j+2)].size == 0){ //se oltre il nemico è libero                                        
-											l=inserimento_mossa_capture (l, board, j, i, j+1, i+1, j+2, i+2);    												
+							if (j+1 < DIM){
+								if(board[(i+1)*DIM + (j+1)].size == 0){
+									l=insertion_simple_shift (l, board, j, i, j+1, i+1);    
+								}else if(board[(i+1)*DIM + (j+1)].tower[0].color == enemy_color){ //la casella è occupata da qualcuno che potrei mangiare?
+									if (i+2 < DIM && j+2 < DIM && board[(i+2) * DIM + (j+2)].size == 0){ //se oltre il nemico è libero                                        
+											l=insertion_capture (l, board, j, i, j+1, i+1, j+2, i+2);    												
 									}
 								}
 							}
 						}
 					}
 					 
-					if(board[i*7+j].tower[0].rank==OFFICER || (board[i*7+j].tower[0].rank==SOLDIER && color==BLACK)){ //set di mosse in su
+					if(board[i*DIM+j].tower[0].rank==OFFICER || (board[i*DIM+j].tower[0].rank==SOLDIER && color==BLACK)){ //set di mosse in su
 						if(i-1 >= 0){
 							if(j-1 >= 0){
 								//caso spostamento semplice per i neri soldati
-								if(board[(i-1)*7 + (j-1)].size == 0){
-									l=inserimento_simple_shift (l, board, j, i, j-1, i-1);
-								}else if(board[(i-1)*7 + (j-1)].tower[0].color == color_nemico){ //la casella è occupata da qualcuno che potrei mangiare?
-									if (i-2 >= 0 && j-2 >= 0 && board[(i-2)*7 + (j-2)].size == 0){ //se oltre il nemico è libero
-											l=inserimento_mossa_capture (l, board, j, i, j-1, i-1, j-2, i-2);					
+								if(board[(i-1)*DIM + (j-1)].size == 0){
+									l=insertion_simple_shift (l, board, j, i, j-1, i-1);
+								}else if(board[(i-1)*DIM + (j-1)].tower[0].color == enemy_color){ //la casella è occupata da qualcuno che potrei mangiare?
+									if (i-2 >= 0 && j-2 >= 0 && board[(i-2)*DIM + (j-2)].size == 0){ //se oltre il nemico è libero
+											l=insertion_capture (l, board, j, i, j-1, i-1, j-2, i-2);					
 									}
 								}
 							}
 
-							if(j+1 < 7){
-								if(board[(i-1)*7 + (j+1)].size == 0){
-									l=inserimento_simple_shift (l, board, j, i, j+1, i-1);						
-								}else if(board[(i-1)*7 + (j+1)].tower[0].color == color_nemico){ //la casella è occupata da qualcuno che potrei mangiare?
-									if (i-2 >= 0 && j+2 < 7 && board[(i-2)*7 + (j+2)].size == 0){ //se oltre il nemico è libero
-										l=inserimento_mossa_capture (l, board, j, i, j+1, i-1, j+2, i-2);									
+							if(j+1 < DIM){
+								if(board[(i-1)*DIM + (j+1)].size == 0){
+									l=insertion_simple_shift (l, board, j, i, j+1, i-1);						
+								}else if(board[(i-1)*DIM + (j+1)].tower[0].color == enemy_color){ //la casella è occupata da qualcuno che potrei mangiare?
+									if (i-2 >= 0 && j+2 < DIM && board[(i-2)*DIM + (j+2)].size == 0){ //se oltre il nemico è libero
+										l=insertion_capture (l, board, j, i, j+1, i-1, j+2, i-2);									
 		
 									}
 								}
@@ -266,8 +289,8 @@ list_of_moves_t* create(list_of_moves_t* l){
 	return supp;
 }
 
-list_of_moves_t* append(list_of_moves_t* l, list_of_moves_t* cella){
-	list_of_moves_t* supp= create(cella);
+list_of_moves_t* append(list_of_moves_t* l, list_of_moves_t* cell){
+	list_of_moves_t* supp= create(cell);
 	list_of_moves_t* n= l;
 	if(l== NULL){
 		return supp;
@@ -281,27 +304,67 @@ list_of_moves_t* append(list_of_moves_t* l, list_of_moves_t* cella){
 	return l;
 }
 
-list_of_moves_t*  filtrare (list_of_moves_t* l){
+list_of_moves_t*  filter (list_of_moves_t* l){
 	int flag = 0; //variabile bool che diventa 1 se e solo se ci sono mosse nella lista con obbligatorietà == 1
-	list_of_moves_t* lista = l;
-	list_of_moves_t* supp= NULL;
-	if(l!= NULL){
-		while(lista!= NULL){
-			if(lista->mandatory== 1){
+	list_of_moves_t* list = l;
+	list_of_moves_t* tmp_head = NULL;
+	list_of_moves_t* temp = NULL;
+	if(l!=NULL){
+		while (list!= NULL && !flag){
+			if(list->mandatory == 1){
 				flag=1;
-				supp= append(supp, lista);
 			}
-			lista= lista->next;
+			list = list->next;
+		}
+
+		if(flag == 1){
+			list = l;
+
+			while (list!= NULL){
+				if(list->mandatory == 1){
+					temp=list->next;
+					list->next=NULL;
+					tmp_head=concat(tmp_head,list);
+					list=temp;	
+				}else{
+					temp=list;
+					list = list->next;
+					free(temp);
+				}
+			}
+			l=tmp_head;
 		}
 	}
-	if(flag==1) return supp;
 	return l;
+
+
+
+
+
+
+	/*int flag = 0; //variabile bool che diventa 1 se e solo se ci sono mosse nella list con obbligatorietà == 1
+	list_of_moves_t* list = l;
+	list_of_moves_t* supp= NULL;
+	if(l!= NULL){
+		while(list!= NULL){
+			if(list->mandatory== 1){
+				flag = 1;
+				supp = append(supp, list);
+			}
+			list = list->next;
+		}
+	}
+	if(flag == 1){
+		l = destroy(l);
+		return supp;
+	} 
+	return l;*/
 }
 
-void stampa_mosse(list_of_moves_t* l, int* n) {
+void print_moves (list_of_moves_t* l, int* n) {
 	int i = 1;
 	while (l != NULL ) {
-		printf("%2d) %s\n", i,l->description); //qua ho messo 2d così è tutto più ordinato
+		printf("%2d) %s\n", i, l->description); //qua ho messo 2d così è tutto più ordinato
 		i++;
 		l = l->next;
 	}
@@ -310,11 +373,11 @@ void stampa_mosse(list_of_moves_t* l, int* n) {
 	/*i - 1 perchè abbiamo incrementato all'ultima iterazione senza sapere che era l'ultima*/
 }
 
-cols_t* estrai (list_of_moves_t* l, int n){
+cols_t* extract (list_of_moves_t* l, int n){
 	int i;
 
-	for(i=1; i<n; i++){ 
-		l=l->next;
+	for(i = 1; i < n; i++){ 
+		l = l->next;
 	}
 
 	return l->board;
@@ -322,94 +385,94 @@ cols_t* estrai (list_of_moves_t* l, int n){
 
 
 
-void check_and_do_promotion (struct cols* board, int stampa){ //possibilmente da scartare e da implementare in spostamento semplice
+void check_and_do_promotion (struct cols* board, int to_print){ //possibilmente da scartare e da implementare in spostamento semplice
    	int j;													
-	for (j=0; j<7; j++){
-    	if(board[6*7 + j].tower != NULL){
+	for (j = 0; j < DIM; j++){
+    	if(board[6 * DIM + j].tower != NULL){
         
-            if(board[6*7 + j].tower[0].color == WHITE && board[6*7 + j].tower[0].rank == SOLDIER){ //è bianco ed è soldato
-                board[6*7 + j].tower[0].rank = OFFICER;
-                board[6*7 + j].tower[0].name -= 32;
-				if(stampa){
-					printf("%c7 è rank promosso", j+65);
+            if(board[6 * DIM + j].tower[0].color == WHITE && board[6 * DIM + j].tower[0].rank == SOLDIER){ //è bianco ed è soldato
+                board[6 * DIM + j].tower[0].rank = OFFICER;
+                board[6 * DIM + j].tower[0].name -= 32;
+				if(to_print){
+					printf("%c7 è stato promosso", j+65);
 				}
-                //stampa == 0 solo in minimax() che è ricorsiva
+                //to_print == 0 solo in minimax() che è ricorsiva
             }
         }
 	}    
 
     
-	for (j=0; j<7; j++){
+	for (j = 0; j < DIM; j++){
     	if(board[0+j].tower != NULL){   
-            if(board[0+j].tower[0].color == 1  && board[0*7 + j].tower[0].rank == 0){ //è nero
+            if(board[0+j].tower[0].color == 1  && board[0 * DIM + j].tower[0].rank == 0){ //è nero
                 board[0+j].tower[0].rank = 1;
                 board[0+j].tower[0].name -= 32;
-				if(stampa){
-					printf("%c1 è rank promosso", j+65);
+				if(to_print){
+					printf("%c1 è stato promosso", j+65);
 				}
-                //stampa == 0 solo in minimax() che è ricorsiva
+                //to_print == 0 solo in minimax() che è ricorsiva
             }
         }
 	}    
 }
 
-/*funzione che crea la matrice di struct colonne*/
-void matrice(cols_t* chessboard) {
+/*funzione che crea la matrix di struct colonne*/
+void matrix(cols_t* board) {
 	int i, j;
-	for(i=0; i<DIM; i++){
-		for(j=0; j<DIM; j++){
-			if(i<=2){
-				if((i*7+j) % 2 == 0){
-					chessboard[i*DIM+j].tower = (pawns_t*) malloc(sizeof(pawns_t) * 3);
+	for(i = 0; i < DIM; i++){
+		for(j = 0; j < DIM; j++){
+			if(i <= 2){
+				if((i * DIM+j) % 2 == 0){
+					board[i*DIM+j].tower = (pawns_t*) malloc(sizeof(pawns_t) * 3);
 
-					if (!chessboard[i * DIM + j].tower) {
+					if (!board[i * DIM + j].tower) {
 						printf("Errore di allocazione di memoria");
 						exit(EXIT_FAILURE);
 					}
 
-					chessboard[i*DIM+j].tower[0].color = WHITE;
-					chessboard[i*DIM+j].tower[0].name = 'w';
-					chessboard[i*DIM+j].tower[0].rank = SOLDIER;
-					chessboard[i*DIM+j].size = 1;
+					board[i*DIM+j].tower[0].color = WHITE;
+					board[i*DIM+j].tower[0].name = 'w';
+					board[i*DIM+j].tower[0].rank = SOLDIER;
+					board[i*DIM+j].size = 1;
 					      
 				}else{
-					chessboard[i*DIM+j].tower = NULL;
-					chessboard[i*DIM+j].size = -1;
+					board[i*DIM+j].tower = NULL;
+					board[i*DIM+j].size = -1;
 				}
 			}else if(i == 3){                                                                     
-				if((i*7+j) % 2 == 0){
-					chessboard[i*DIM+j].tower = (pawns_t*) malloc(sizeof(pawns_t) * 3);
+				if((i*DIM+j) % 2 == 0){
+					board[i*DIM+j].tower = (pawns_t*) malloc(sizeof(pawns_t) * 3);
 
-					if (!chessboard[i * DIM + j].tower) {
+					if (!board[i * DIM + j].tower) {
 						printf("Errore di allocazione di memoria");
 						exit(EXIT_FAILURE);
 					}
 					
-					chessboard[i*DIM+j].size = 0;
+					board[i*DIM+j].size = 0;
 					
 				}else{
-					chessboard[i*DIM+j].tower = NULL;
-					chessboard[i*DIM+j].size = -1;
+					board[i*DIM+j].tower = NULL;
+					board[i*DIM+j].size = -1;
 					
 				}
 			}else{
-				if((i*7+j) % 2 == 0){
-					chessboard[i*DIM+j].tower = (pawns_t*) malloc(sizeof(pawns_t) * 3);
+				if((i*DIM+j) % 2 == 0){
+					board[i*DIM+j].tower = (pawns_t*) malloc(sizeof(pawns_t) * 3);
 
-					if (!chessboard[i * DIM + j].tower) {
+					if (!board[i * DIM + j].tower) {
 						printf("Errore di allocazione di memoria");
 						exit(EXIT_FAILURE);
 					}
 					
 					
-					chessboard[i*DIM+j].tower[0].color = BLACK;
-					chessboard[i*DIM+j].tower[0].name = 'b';
-					chessboard[i*DIM+j].tower[0].rank = SOLDIER;
-					chessboard[i*DIM+j].size = 1;
+					board[i*DIM+j].tower[0].color = BLACK;
+					board[i*DIM+j].tower[0].name = 'b';
+					board[i*DIM+j].tower[0].rank = SOLDIER;
+					board[i*DIM+j].size = 1;
 					
 				}else{
-					chessboard[i*DIM+j].tower = NULL;
-					chessboard[i*DIM+j].size = -1;
+					board[i*DIM+j].tower = NULL;
+					board[i*DIM+j].size = -1;
 					
 				}
 			}
@@ -418,25 +481,27 @@ void matrice(cols_t* chessboard) {
 }
 
 
-void campo(int lato, int dim, cols_t* partita) {
+void field(cols_t* board) {
 
-	int numeri[7] = { 1,2,3,4,5,6,7 };
-	char lettere[9] = { '/','a','b','c','d','e','f','g','/' };
-	int riga,riga_casella,cols,cols_casella,t;
+	int numbers[7] = { 1,2,3,4,5,6,7 };
+	char letters[9] = { '/','a','b','c','d','e','f','g','/' };
+	int row, cell_row, cols, cell_cols, t;
+
     printf("\n");
-	for(riga=0;riga<9;riga++){
-        for(t=0;t<55;t++)printf("-");
+
+	for(row = 0; row < 9; row++){
+        for(t = 0; t < 55 ; t++) printf("-");
         printf("\n");
-        if(riga==0 || riga==8){            
-            for(riga_casella=0;riga_casella<5;riga_casella++){
-                for(cols=0;cols<9;cols++){
+        if(row == 0 || row == 8){            
+            for(cell_row = 0; cell_row < 5; cell_row++){
+                for(cols = 0; cols < 9; cols++){
                     printf("|");
-                    if(riga_casella==2){
-                        for(cols_casella=0;cols_casella<5;cols_casella++){
-                            printf("%c",lettere[cols]);
+                    if(cell_row == 2){
+                        for(cell_cols = 0; cell_cols < 5; cell_cols++){
+                            printf("%c",letters[cols]);
                         }
                     }else{
-                        for(cols_casella=0;cols_casella<5;cols_casella++){
+                        for(cell_cols = 0; cell_cols < 5; cell_cols++){
                             printf(" ");
                         }
                     }
@@ -445,16 +510,16 @@ void campo(int lato, int dim, cols_t* partita) {
                 printf("|\n");
             }
         }else{
-            for(riga_casella=0;riga_casella<5;riga_casella++){
-                printf("|  %d  |",numeri[riga-1]);
-                for(cols=0;cols<7;cols++){
-                    for(cols_casella=0;cols_casella<5;cols_casella++){
-						if((riga+cols)%2==0){
+            for(cell_row = 0; cell_row < 5; cell_row++){
+                printf("|  %d  |",numbers[row-1]);
+                for(cols = 0; cols < DIM; cols++){
+                    for(cell_cols = 0; cell_cols < 5; cell_cols++){
+						if((row + cols) % 2 == 0){
                             printf("°");
                         }else{
-							t=partita[(riga-1)*7+(cols)].size;
-							if(cols_casella==2 && riga_casella>0 && riga_casella<4 && t+riga_casella>3){
-								printf("%c",partita[(riga-1)*7+(cols)].tower[t+riga_casella-4].name);
+							t = board[(row-1)*DIM+(cols)].size;
+							if(cell_cols == 2 && cell_row > 0 && cell_row < 4 && t+cell_row > 3){
+								printf("%c",board[(row-1)*DIM+(cols)].tower[t+cell_row-4].name);
 							}else{
 								printf(" ");
 							}
@@ -462,11 +527,11 @@ void campo(int lato, int dim, cols_t* partita) {
                     }
                     printf("|");
                 }
-                printf("  %d  |\n",numeri[riga-1]);
+                printf("  %d  |\n",numbers[row-1]);
             }
         }
 	}
-	for(t=0;t<55;t++)printf("-");
+	for(t = 0; t < 55; t++) printf("-");
 	printf("\n");
 }
 
@@ -510,8 +575,8 @@ int minimax(cols_t* board, int depth, int player){
 	
 	struct list_of_moves* l_og = NULL;
 	struct list_of_moves* l = NULL;
-	l_og = analisi_mosse(l_og, board, player);
-	l_og = filtrare(l_og);
+	l_og = moves_analysis(l_og, board, player);
+	l_og = filter(l_og);
 	
 	if(depth == 0 || l_og == NULL){
 		return evaluation(board);
@@ -547,7 +612,7 @@ int minimax(cols_t* board, int depth, int player){
 
 }
 
-char* estrai_description (list_of_moves_t* l, int n){
+char* extract_description (list_of_moves_t* l, int n){
 	int i;
 
 	for(i=1; i<n; i++){ 
@@ -557,7 +622,7 @@ char* estrai_description (list_of_moves_t* l, int n){
 	return l->description;
 }
 
-int macro_ai (cols_t* board, struct list_of_moves* l, int depth, int player){
+int macro_ai (struct list_of_moves* l, int depth, int player){
 	//i neri minimizzano e i bianchi massimizzano
 	int max = INT_MIN; 
 	int pos = 0;
@@ -588,50 +653,50 @@ int main (){
 	cols_t* board = (cols_t*) malloc(sizeof(cols_t) * 49);
 	struct list_of_moves* l = NULL;
 	
-	int n=0, scelta=0;
+	int n=0, choice=0;
 	int player = PLAYER_1;
-	int modalita_gioco = 0;
+	int game_mode = 0;
 
-	matrice(board);
+	matrix(board);
 
-	while(modalita_gioco < 1 || modalita_gioco > 2){
+	while(game_mode < 1 || game_mode > 2){
 		printf("Vuoi giocare contro il COMPUTER (1) o contro un altro giocatore(2)? \n");
 		printf("Digita la tua risposta. \n");
-		scanf("%d", &modalita_gioco);
+		scanf("%d", &game_mode);
 	}
 	
 
-	if(modalita_gioco == 1){//modalità COMPUTER
+	if(game_mode == 1){//modalità COMPUTER
 		while(player == PLAYER_1 || player == PLAYER_2){
-			campo(9,5,board);
+			field(board);
 			printf("PLAYER 1: AI, PLAYER 2: utente \n");
 			printf("player = %d \n", player);
-			printf("turno %c\n",87-(player*21));
+			printf("player %c\n",87-(player*21));
 
-			l = analisi_mosse(l, board, player);
+			l = moves_analysis(l, board, player);
 			if(l == NULL){
 				printf("GAME OVER: ha vinto %c\n",87-(!player*21));
 				exit(EXIT_FAILURE);
 			}
 				
-			l = filtrare(l);
+			l = filter(l);
 				
 			if(player == PLAYER_1){
-				scelta = macro_ai(board, l, DEPTH, player);
-				copy_board(estrai(l,scelta),board);
-				//stampa description mossa scelta
-				printf("W ha giocato %s\n",estrai_description(l, scelta));
+				choice = macro_ai(l, DEPTH, player);
+				copy_board(extract(l,choice),board);
+				//to_print description mossa choice
+				printf("W ha giocato %s\n",extract_description(l, choice));
 			}else{ //se gioca l'utente
-				/*stampa lista mosse*/
-				stampa_mosse(l, &n);
+				/*to_print list mosse*/
+				print_moves (l, &n);
 				
-				/*acquisisci ed esegui la mossa scelta*/
+				/*acquisisci ed esegui la mossa choice*/
 				do{
 					printf("Digita il numero della mossa che desideri eseguire.\n");
-					scanf("%d", &scelta);
-				}while(scelta > n || scelta<1);
+					scanf("%d", &choice);
+				}while(choice > n || choice<1);
 
-				copy_board(estrai(l,scelta),board);
+				copy_board(extract(l,choice),board);
 
 			}
 		
@@ -646,27 +711,27 @@ int main (){
 		
 	}else{ //per la condizione del while siamo sicuri che o è 1 o è 2
 		while(player == PLAYER_1 || player == PLAYER_2){
-			campo(9,5,board);
-			printf("turno %c\n",87-(player*21));
-			l = analisi_mosse(l, board, player);
+			field(board);
+			printf("player %c\n",87-(player*21));
+			l = moves_analysis(l, board, player);
 			if(l == NULL){
 				printf("GAME OVER: ha vinto %c\n",87-(!player*21));
 				exit(EXIT_FAILURE);
 			}
 
-			l = filtrare(l);
+			l = filter(l);
 
-			/*stampa lista mosse*/
-			stampa_mosse(l, &n);
+			/*to_print list mosse*/
+			print_moves (l, &n);
 				
 
-			/*acquisisci ed esegui la mossa scelta*/
+			/*acquisisci ed esegui la mossa choice*/
 			do{
 				printf("Digita il numero della mossa che desideri eseguire.\n");
-				scanf("%d", &scelta);
-			}while(scelta > n || scelta<1);
+				scanf("%d", &choice);
+			}while(choice > n || choice<1);
 
-			copy_board(estrai(l,scelta),board);
+			copy_board(extract(l,choice),board);
 
 			l=destroy(l);
 			/*eventuale promozione*/
