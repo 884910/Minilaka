@@ -1,3 +1,4 @@
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -12,53 +13,48 @@
 #define BLACK 1
 #define SOLDIER 0
 #define OFFICER 1
-#define YES 1
-#define NO 0
 
 
-
-char end_of_game = 0; //varrà 1 quando il gioco sarà finito
-
-
-/*struct pedina*/
+/*struct pawns*/
 typedef
-struct pedina {
-	int colore;
-	char nome;
-	char stato;
-} pedina_t;
+struct pawns {
+	int color;
+	char name;
+	char rank;
+} pawns_t;
 
-/*struct colonna*/
+/*struct cols*/
 typedef
-struct colonna {
-	int capacity;
+struct cols {
 	int size;
-	//array di struct pedina
-	struct pedina* torre;
-}colonna_t;
+	//array of struct pawns
+	struct pawns* tower;
+}cols_t;
 
 typedef
-struct lista_mosse{
-    char obbligatorieta; //0=no, 1=si
-    struct colonna* scacchiera; //qui inseriremo il nuovo possibile stato della scacchiera
-    char* descrizione; //ex. A5 - C7 
-    struct lista_mosse* next;
-}lista_mosse_t;
+struct list_of_moves{
+    char mandatory; //0=no, 1=yes
+    struct cols* board; //qui inseriremo il new possibile rank della board
+    char* description; //ex. A5 - C7 
+    struct list_of_moves* next;
+}list_of_moves_t;
 
-void copia_pedina (pedina_t* p_dst, pedina_t* p_src){  
-	p_dst->nome = p_src->nome;
-	p_dst->stato = p_src->stato;
-	p_dst->colore = p_src->colore;
+void copy_pawns (pawns_t* p_dst, pawns_t* p_src){  
+	p_dst->name = p_src->name;
+	p_dst->rank = p_src->rank;
+	p_dst->color = p_src->color;
 }
 
-void copia_scacchiera(colonna_t* src, colonna_t* dst){ 
+void copy_board(cols_t* src, cols_t* dst){ 
 	int i,j,k;											
-	for(i=0;i<7;i++){									
-		for(j=0;j<7;j++){
-			if(src[i*DIM+j].torre!=NULL){
-				dst[i*DIM+j].torre = (pedina_t*) malloc(sizeof(pedina_t) * 3);
+	for(i=0;i<DIM;i++){									
+		for(j=0;j<DIM;j++){
+			if(src[i*DIM+j].tower!=NULL){	
+				if(dst[i*DIM+j].tower == NULL){
+					dst[i*DIM+j].tower = (pawns_t*) malloc(sizeof(pawns_t) * 3);
+				}
 				for(k=0;k<3;k++){
-					copia_pedina(&(dst[i*DIM+j].torre[k]),&(src[i*DIM+j].torre[k]));
+					copy_pawns(&(dst[i*DIM+j].tower[k]),&(src[i*DIM+j].tower[k]));
 				}
 				dst[i*DIM+j].size = src[i*DIM+j].size;
 			}
@@ -66,64 +62,64 @@ void copia_scacchiera(colonna_t* src, colonna_t* dst){
 	}
 }
 
-void spostamento_semplice(struct colonna* scacchiera, int x0, int y0, int xd, int yd){ 
+void simple_shift(struct cols* board, int x0, int y0, int xd, int yd){ 
 	int i;
-	for (i=0; i<scacchiera[y0 * DIM +x0].size; i++){
-		copia_pedina(&(scacchiera[yd * DIM + xd].torre[i]), &(scacchiera[y0 * DIM + x0].torre[i]));
+	for (i=0; i<board[y0 * DIM +x0].size; i++){
+		copy_pawns(&(board[yd * DIM + xd].tower[i]), &(board[y0 * DIM + x0].tower[i]));
 	}
 	
-	scacchiera[yd * DIM + xd].size = scacchiera[y0*7+x0].size;
-	scacchiera[y0 * DIM + x0].size=0;
-	free(scacchiera[y0 * DIM + x0].torre);
+	board[yd * DIM + xd].size = board[y0*7+x0].size;
+	board[y0 * DIM + x0].size=0;
+	free(board[y0 * DIM + x0].tower);
 }
 
-void mangiata(struct colonna* scacchiera, int x0, int y0, int x1, int y1, int xd, int yd) {
+void capture(struct cols* board, int x0, int y0, int x1, int y1, int xd, int yd) {
 
-	int sizeatt = scacchiera[y0 * 7 + x0].size;
-	int sizedef = scacchiera[y1 * 7 + x1].size; // ottengo la size di chi viene mangiato
+	int sizeatt = board[y0 * DIM + x0].size;
+	int sizedef = board[y1 * DIM + x1].size; // ottengo la size di chi viene mangiato
 	int i;
 
-
+	
 	if (sizeatt != 3) {
-		copia_pedina(&scacchiera[y0 * 7 + x0].torre[sizeatt], &scacchiera[y1 * 7 + x1].torre[0]);
-		scacchiera[y0 * 7 + x0].size++;
+		copy_pawns(&board[y0 * DIM + x0].tower[sizeatt], &board[y1 * DIM + x1].tower[0]);
+		board[y0 * DIM + x0].size++;
 	}
 
-	/*se ci sono 4 pedine?
-	copio fino alla terza pedina e poi elimino l'altra struct e la sostituisco con quella creata*/
+	/*se ci sono 4 copy_board pedine?
+	copio fino alla terza pawns e poi elimino l'altra struct e la sostituisco con quella creata*/
 
 	if (sizeatt > 3) {
-		/*mi basta l'array, perchè con la free libero torre e non l'intera struct colonna*/
-		pedina_t* torre = (struct pedina*)malloc(sizeof(pedina_t) * 3);
+		/*mi basta l'array, perchè con la free libero tower e non l'intera struct cols*/
+		pawns_t* tower = (struct pawns*)malloc(sizeof(pawns_t) * 3);
 		for (int i = 0; i < 3; i++) {
-			copia_pedina(&scacchiera[y0 * 7 + x0].torre[i], &torre[i]);
+			copy_pawns(&board[y0 * 7 + x0].tower[i], &tower[i]);
 		}
-		free(scacchiera[y0 * 7 + x0].torre);
-		scacchiera[y0 * 7 + x0].size--;
-		scacchiera[y0 * 7 + x0].torre = (pedina_t*)malloc(sizeof(pedina_t) * 3);
-		//scacchiera[y0*7+x0].torre=torre;
+		free(board[y0 * 7 + x0].tower);
+		board[y0 * 7 + x0].size--;
+		board[y0 * 7 + x0].tower = (pawns_t*)malloc(sizeof(pawns_t) * 3);
+		//board[y0*7+x0].tower=tower;
 		for (int i = 0; i < 3; i++) {
-			copia_pedina(&torre[i], &scacchiera[y0 * 7 + x0].torre[i]);
+			copy_pawns(&tower[i], &board[y0 * 7 + x0].tower[i]);
 		}
-		free(torre);
+		free(tower);
 	}
 
 
-	scacchiera[y1 * 7 + x1].size--;
-	if (scacchiera[y1 * 7 + x1].size != 0) {
-		for (i = 0; i < scacchiera[y1 * 7 + x1].size; i++) {
-			copia_pedina(&scacchiera[y1 * 7 + x1].torre[i], &scacchiera[y1 * 7 + x1].torre[i + 1]);
+	board[y1 * 7 + x1].size--;
+	if (board[y1 * 7 + x1].size != 0) {
+		for (i = 0; i < board[y1 * 7 + x1].size; i++) {
+			copy_pawns(&board[y1 * 7 + x1].tower[i], &board[y1 * 7 + x1].tower[i + 1]);
 		}
 	}
 	else {
-		free(scacchiera[y1 * 7 + x1].torre);
+		free(board[y1 * 7 + x1].tower);
 	}
-	spostamento_semplice(scacchiera, x0, y0, xd, yd);
+	simple_shift(board, x0, y0, xd, yd);
 }
 
-lista_mosse_t *elimina (lista_mosse_t* l){ 
+list_of_moves_t *destroy (list_of_moves_t* l){ 
     if(l->next!=NULL){						
-		elimina(l->next);
+		destroy(l->next);
 	}
 	if(l){free(l);}
 	l=NULL;
@@ -149,103 +145,103 @@ void fill_description2 (char* desc, int x0, int y0, int x1, int y1, int xd, int 
 	desc[7] = yd + '1';
 }
 
-lista_mosse_t *aggiungiCoda(lista_mosse_t* testa, lista_mosse_t* nuovo){ 
-	lista_mosse_t* temp;
-	if(testa==NULL){
-		return nuovo;
+list_of_moves_t *concat(list_of_moves_t* head, list_of_moves_t* new){ 
+	list_of_moves_t* temp;
+	if(head==NULL){
+		return new;
 	}else{
-		temp=testa;
+		temp=head;
 		while(temp->next!=NULL) temp=temp->next;
-		temp->next=nuovo;
+		temp->next=new;
 	}
-	return testa;
+	return head;
 }
 
-lista_mosse_t *inserimento_spostamento_semplice (lista_mosse_t* l, colonna_t* scacchiera, int x0, int y0, int xd, int yd){
-	lista_mosse_t *temp = (struct lista_mosse*) malloc(sizeof(struct lista_mosse));
-	temp->scacchiera = (colonna_t*) malloc(sizeof(colonna_t) * 49);
-    copia_scacchiera(scacchiera, temp->scacchiera);
-	spostamento_semplice (temp->scacchiera, x0, y0, xd, yd);
-    temp->descrizione = (char*) malloc(sizeof(char)*10 + 1);
-	fill_description1(temp->descrizione, x0, y0, xd, yd);
-	temp->obbligatorieta = 0;
+list_of_moves_t *inserimento_simple_shift (list_of_moves_t* l, cols_t* board, int x0, int y0, int xd, int yd){
+	list_of_moves_t *temp = (struct list_of_moves*) malloc(sizeof(struct list_of_moves));
+	temp->board = (cols_t*) malloc(sizeof(cols_t) * 49);
+    copy_board(board, temp->board);
+	simple_shift (temp->board, x0, y0, xd, yd);
+    temp->description = (char*) malloc(sizeof(char)*10 + 1);
+	fill_description1(temp->description, x0, y0, xd, yd);
+	temp->mandatory = 0;
 	temp->next=NULL;
-	l=aggiungiCoda(l,temp);
+	l=concat(l,temp);
 	return l;
 }
 
-lista_mosse_t *inserimento_mossa_mangiata (lista_mosse_t* l, colonna_t* scacchiera, int x0, int y0, int x1, int y1, int xd, int yd){
-	lista_mosse_t *temp = (struct lista_mosse*) malloc(sizeof(struct lista_mosse));
-    temp->scacchiera = (struct colonna*) malloc(sizeof(struct colonna)*49);
-    copia_scacchiera(scacchiera, temp->scacchiera);
-    mangiata(temp->scacchiera, x0, y0, x1, y1, xd, yd);
-    temp->descrizione = (char*) malloc(sizeof(char)*10 + 1);
-	fill_description2(temp->descrizione, x0, y0, x1, y1, xd, yd);
-    temp->obbligatorieta = 1;
+list_of_moves_t *inserimento_mossa_capture (list_of_moves_t* l, cols_t* board, int x0, int y0, int x1, int y1, int xd, int yd){
+	list_of_moves_t *temp = (struct list_of_moves*) malloc(sizeof(struct list_of_moves));
+    temp->board = (struct cols*) malloc(sizeof(struct cols)*49);
+    copy_board(board, temp->board);
+    capture(temp->board, x0, y0, x1, y1, xd, yd);
+    temp->description = (char*) malloc(sizeof(char)*10 + 1);
+	fill_description2(temp->description, x0, y0, x1, y1, xd, yd);
+    temp->mandatory = 1;
 	temp->next=NULL;
-    l=aggiungiCoda(l,temp);
+    l=concat(l,temp);
 	return l;
 }
 
 
-lista_mosse_t* analisi_mosse (lista_mosse_t* l, struct colonna* scacchiera, int turno){ 
+list_of_moves_t* analisi_mosse (list_of_moves_t* l, struct cols* board, int turno){ 
 	int i, j;
-	char colore, colore_nemico;
+	char color, color_nemico;
 
-	colore = turno;
-	colore_nemico = 1 - colore;
+	color = turno;
+	color_nemico = 1 - color;
 	
 	for(i=0;i<7;i++){
 		for(j=0;j<7;j++){
-			//ciclo di scan della scacchiera
+			//ciclo di scan della board
 
-			if(scacchiera[i*7+j].torre != NULL){ //controllo se c'è una pedina
+			if(board[i*7+j].tower != NULL){ //controllo se c'è una pawns
 				
-				if(scacchiera[i*7+j].torre[0].colore == colore){ //se la pedina è del giocatore del turno corrente
+				if(board[i*7+j].tower[0].color == color){ //se la pawns è del giocatore del turno corrente
 
-					if(scacchiera[i*7+j].torre[0].stato == OFFICER || (scacchiera[i*7+j].torre[0].stato == SOLDIER && colore == WHITE)){  //set mosse in giù
+					if(board[i*7+j].tower[0].rank == OFFICER || (board[i*7+j].tower[0].rank == SOLDIER && color == WHITE)){  //set mosse in giù
 						if(i+1 < 7){ 
 							//caso spostamento semplice per i bianchi soldati
 							if (j-1>=0){
-								if(scacchiera[(i+1)*7 + (j-1)].size == 0){
-									l=inserimento_spostamento_semplice (l, scacchiera, j, i, j-1, i+1);	
-								}else if(scacchiera[(i+1)*7 + (j-1)].torre[0].colore == colore_nemico){ //la casella è occupata da qualcuno che potrei mangiare?
-									if (i+2<=7 && j-2>=0 && scacchiera[(i+2)*7 + (j-2)].size == 0){ //se oltre il nemico è libero
-										l=inserimento_mossa_mangiata (l, scacchiera, j, i, j-1, i+1, j-2, i+2);			
+								if(board[(i+1)*7 + (j-1)].size == 0){
+									l=inserimento_simple_shift (l, board, j, i, j-1, i+1);	
+								}else if(board[(i+1)*7 + (j-1)].tower[0].color == color_nemico){ //la casella è occupata da qualcuno che potrei mangiare?
+									if (i+2<=7 && j-2>=0 && board[(i+2)*7 + (j-2)].size == 0){ //se oltre il nemico è libero
+										l=inserimento_mossa_capture (l, board, j, i, j-1, i+1, j-2, i+2);			
 									}
 								}
 							}
 							if (j+1<7){
-								if(scacchiera[(i+1)*7 + (j+1)].size == 0){
-									l=inserimento_spostamento_semplice (l, scacchiera, j, i, j+1, i+1);    
-								}else if(scacchiera[(i+1)*7 + (j+1)].torre[0].colore == colore_nemico){ //la casella è occupata da qualcuno che potrei mangiare?
-									if (i+2<7 && j+2<7 && scacchiera[(i+2)*7 + (j+2)].size == 0){ //se oltre il nemico è libero                                        
-											l=inserimento_mossa_mangiata (l, scacchiera, j, i, j+1, i+1, j+2, i+2);    												
+								if(board[(i+1)*7 + (j+1)].size == 0){
+									l=inserimento_simple_shift (l, board, j, i, j+1, i+1);    
+								}else if(board[(i+1)*7 + (j+1)].tower[0].color == color_nemico){ //la casella è occupata da qualcuno che potrei mangiare?
+									if (i+2<7 && j+2<7 && board[(i+2)*7 + (j+2)].size == 0){ //se oltre il nemico è libero                                        
+											l=inserimento_mossa_capture (l, board, j, i, j+1, i+1, j+2, i+2);    												
 									}
 								}
 							}
 						}
 					}
 					 
-					if(scacchiera[i*7+j].torre[0].stato==OFFICER || (scacchiera[i*7+j].torre[0].stato==SOLDIER && colore==BLACK)){ //set di mosse in su
+					if(board[i*7+j].tower[0].rank==OFFICER || (board[i*7+j].tower[0].rank==SOLDIER && color==BLACK)){ //set di mosse in su
 						if(i-1 >= 0){
 							if(j-1 >= 0){
 								//caso spostamento semplice per i neri soldati
-								if(scacchiera[(i-1)*7 + (j-1)].size == 0){
-									l=inserimento_spostamento_semplice (l, scacchiera, j, i, j-1, i-1);
-								}else if(scacchiera[(i-1)*7 + (j-1)].torre[0].colore == colore_nemico){ //la casella è occupata da qualcuno che potrei mangiare?
-									if (i-2 >= 0 && j-2 >= 0 && scacchiera[(i-2)*7 + (j-2)].size == 0){ //se oltre il nemico è libero
-											l=inserimento_mossa_mangiata (l, scacchiera, j, i, j-1, i-1, j-2, i-2);					
+								if(board[(i-1)*7 + (j-1)].size == 0){
+									l=inserimento_simple_shift (l, board, j, i, j-1, i-1);
+								}else if(board[(i-1)*7 + (j-1)].tower[0].color == color_nemico){ //la casella è occupata da qualcuno che potrei mangiare?
+									if (i-2 >= 0 && j-2 >= 0 && board[(i-2)*7 + (j-2)].size == 0){ //se oltre il nemico è libero
+											l=inserimento_mossa_capture (l, board, j, i, j-1, i-1, j-2, i-2);					
 									}
 								}
 							}
 
 							if(j+1 < 7){
-								if(scacchiera[(i-1)*7 + (j+1)].size == 0){
-									l=inserimento_spostamento_semplice (l, scacchiera, j, i, j+1, i-1);						
-								}else if(scacchiera[(i-1)*7 + (j+1)].torre[0].colore == colore_nemico){ //la casella è occupata da qualcuno che potrei mangiare?
-									if (i-2 >= 0 && j+2 < 7 && scacchiera[(i-2)*7 + (j+2)].size == 0){ //se oltre il nemico è libero
-										l=inserimento_mossa_mangiata (l, scacchiera, j, i, j+1, i-1, j+2, i-2);									
+								if(board[(i-1)*7 + (j+1)].size == 0){
+									l=inserimento_simple_shift (l, board, j, i, j+1, i-1);						
+								}else if(board[(i-1)*7 + (j+1)].tower[0].color == color_nemico){ //la casella è occupata da qualcuno che potrei mangiare?
+									if (i-2 >= 0 && j+2 < 7 && board[(i-2)*7 + (j+2)].size == 0){ //se oltre il nemico è libero
+										l=inserimento_mossa_capture (l, board, j, i, j+1, i-1, j+2, i-2);									
 		
 									}
 								}
@@ -260,44 +256,52 @@ lista_mosse_t* analisi_mosse (lista_mosse_t* l, struct colonna* scacchiera, int 
 }
 
 
-lista_mosse_t*  filtrare (lista_mosse_t* l){
-	int flag = 0; //variabile bool che diventa 1 se e solo se ci sono mosse nella lista con obbligatorietà == 1
-	lista_mosse_t* lista = l;
-	lista_mosse_t* tmp_head = NULL;
-	lista_mosse_t* temp = NULL;
-	if(l!=NULL){
-		while (lista!= NULL && !flag){
-			if(lista->obbligatorieta == 1){
-				flag=1;
-			}
-			lista=lista->next;
-		}
 
-		if(flag == 1){
-			lista = l;
+list_of_moves_t* create(list_of_moves_t* l){
+	list_of_moves_t* supp= (struct list_of_moves*) malloc(sizeof(struct list_of_moves));
+	supp->description= l->description;
+	supp->mandatory= l->mandatory;
+	supp->board= l->board;
+	supp->next= NULL;
+	return supp;
+}
 
-			while (lista!= NULL){
-				if(lista->obbligatorieta == 1){
-					temp=lista->next;
-					lista->next=NULL;
-					tmp_head=aggiungiCoda(tmp_head,lista);
-					lista=temp;	
-				}else{
-					temp=lista;
-					lista=lista->next;
-					free(temp);
-				}
-			}
-			l=tmp_head;
+list_of_moves_t* append(list_of_moves_t* l, list_of_moves_t* cella){
+	list_of_moves_t* supp= create(cella);
+	list_of_moves_t* n= l;
+	if(l== NULL){
+		return supp;
+	}
+	else{
+		while(n->next!= NULL){
+			n=n->next;
 		}
+		n->next= supp;
 	}
 	return l;
 }
 
-void stampa_mosse(lista_mosse_t* l, int* n) {
+list_of_moves_t*  filtrare (list_of_moves_t* l){
+	int flag = 0; //variabile bool che diventa 1 se e solo se ci sono mosse nella lista con obbligatorietà == 1
+	list_of_moves_t* lista = l;
+	list_of_moves_t* supp= NULL;
+	if(l!= NULL){
+		while(lista!= NULL){
+			if(lista->mandatory== 1){
+				flag=1;
+				supp= append(supp, lista);
+			}
+			lista= lista->next;
+		}
+	}
+	if(flag==1) return supp;
+	return l;
+}
+
+void stampa_mosse(list_of_moves_t* l, int* n) {
 	int i = 1;
 	while (l != NULL ) {
-		printf("%2d) %s\n", i,l->descrizione); //qua ho messo 2d così è tutto più ordinato
+		printf("%2d) %s\n", i,l->description); //qua ho messo 2d così è tutto più ordinato
 		i++;
 		l = l->next;
 	}
@@ -306,28 +310,28 @@ void stampa_mosse(lista_mosse_t* l, int* n) {
 	/*i - 1 perchè abbiamo incrementato all'ultima iterazione senza sapere che era l'ultima*/
 }
 
-colonna_t* estrai (lista_mosse_t* l, int n){
+cols_t* estrai (list_of_moves_t* l, int n){
 	int i;
 
 	for(i=1; i<n; i++){ 
 		l=l->next;
 	}
 
-	return l->scacchiera;
+	return l->board;
 }
 
 
 
-void check_and_do_promotion (struct colonna* scacchiera, int stampa){ //possibilmente da scartare e da implementare in spostamento semplice
+void check_and_do_promotion (struct cols* board, int stampa){ //possibilmente da scartare e da implementare in spostamento semplice
    	int j;													
 	for (j=0; j<7; j++){
-    	if(scacchiera[6*7 + j].torre != NULL){
+    	if(board[6*7 + j].tower != NULL){
         
-            if(scacchiera[6*7 + j].torre[0].colore == WHITE && scacchiera[6*7 + j].torre[0].stato == SOLDIER){ //è bianco ed è soldato
-                scacchiera[6*7 + j].torre[0].stato = OFFICER;
-                scacchiera[6*7 + j].torre[0].nome -= 32;
+            if(board[6*7 + j].tower[0].color == WHITE && board[6*7 + j].tower[0].rank == SOLDIER){ //è bianco ed è soldato
+                board[6*7 + j].tower[0].rank = OFFICER;
+                board[6*7 + j].tower[0].name -= 32;
 				if(stampa){
-					printf("%c7 è stato promosso", j+65);
+					printf("%c7 è rank promosso", j+65);
 				}
                 //stampa == 0 solo in minimax() che è ricorsiva
             }
@@ -336,12 +340,12 @@ void check_and_do_promotion (struct colonna* scacchiera, int stampa){ //possibil
 
     
 	for (j=0; j<7; j++){
-    	if(scacchiera[0+j].torre != NULL){   
-            if(scacchiera[0+j].torre[0].colore == 1  && scacchiera[0*7 + j].torre[0].stato == 0){ //è nero
-                scacchiera[0+j].torre[0].stato = 1;
-                scacchiera[0+j].torre[0].nome -= 32;
+    	if(board[0+j].tower != NULL){   
+            if(board[0+j].tower[0].color == 1  && board[0*7 + j].tower[0].rank == 0){ //è nero
+                board[0+j].tower[0].rank = 1;
+                board[0+j].tower[0].name -= 32;
 				if(stampa){
-					printf("%c1 è stato promosso", j+65);
+					printf("%c1 è rank promosso", j+65);
 				}
                 //stampa == 0 solo in minimax() che è ricorsiva
             }
@@ -350,64 +354,63 @@ void check_and_do_promotion (struct colonna* scacchiera, int stampa){ //possibil
 }
 
 /*funzione che crea la matrice di struct colonne*/
-void matrice(colonna_t* chessboard) {
+void matrice(cols_t* chessboard) {
 	int i, j;
 	for(i=0; i<DIM; i++){
 		for(j=0; j<DIM; j++){
 			if(i<=2){
 				if((i*7+j) % 2 == 0){
-					chessboard[i*DIM+j].torre = (pedina_t*) malloc(sizeof(pedina_t) * 3);
+					chessboard[i*DIM+j].tower = (pawns_t*) malloc(sizeof(pawns_t) * 3);
 
-					if (!chessboard[i * DIM + j].torre) {
+					if (!chessboard[i * DIM + j].tower) {
 						printf("Errore di allocazione di memoria");
 						exit(EXIT_FAILURE);
 					}
 
-					chessboard[i*DIM+j].torre[0].colore = WHITE;
-					chessboard[i*DIM+j].torre[0].nome = 'w';
-					chessboard[i*DIM+j].torre[0].stato = SOLDIER;
+					chessboard[i*DIM+j].tower[0].color = WHITE;
+					chessboard[i*DIM+j].tower[0].name = 'w';
+					chessboard[i*DIM+j].tower[0].rank = SOLDIER;
 					chessboard[i*DIM+j].size = 1;
-					chessboard[i*DIM+j].capacity = 3;      //capacity non serve a una ceppa
+					      
 				}else{
-					chessboard[i*DIM+j].torre = NULL;
+					chessboard[i*DIM+j].tower = NULL;
 					chessboard[i*DIM+j].size = -1;
-					chessboard[i*DIM+j].capacity = 0;
 				}
 			}else if(i == 3){                                                                     
 				if((i*7+j) % 2 == 0){
-					chessboard[i*DIM+j].torre = (pedina_t*) malloc(sizeof(pedina_t) * 3);
+					chessboard[i*DIM+j].tower = (pawns_t*) malloc(sizeof(pawns_t) * 3);
 
-					if (!chessboard[i * DIM + j].torre) {
+					if (!chessboard[i * DIM + j].tower) {
 						printf("Errore di allocazione di memoria");
 						exit(EXIT_FAILURE);
 					}
 					
 					chessboard[i*DIM+j].size = 0;
-					chessboard[i*DIM+j].capacity = 3;
+					
 				}else{
-					chessboard[i*DIM+j].torre = NULL;
+					chessboard[i*DIM+j].tower = NULL;
 					chessboard[i*DIM+j].size = -1;
-					chessboard[i*DIM+j].capacity = 0;
+					
 				}
 			}else{
 				if((i*7+j) % 2 == 0){
-					chessboard[i*DIM+j].torre = (pedina_t*) malloc(sizeof(pedina_t) * 3);
+					chessboard[i*DIM+j].tower = (pawns_t*) malloc(sizeof(pawns_t) * 3);
 
-					if (!chessboard[i * DIM + j].torre) {
+					if (!chessboard[i * DIM + j].tower) {
 						printf("Errore di allocazione di memoria");
 						exit(EXIT_FAILURE);
 					}
 					
 					
-					chessboard[i*DIM+j].torre[0].colore = BLACK;
-					chessboard[i*DIM+j].torre[0].nome = 'b';
-					chessboard[i*DIM+j].torre[0].stato = SOLDIER;
+					chessboard[i*DIM+j].tower[0].color = BLACK;
+					chessboard[i*DIM+j].tower[0].name = 'b';
+					chessboard[i*DIM+j].tower[0].rank = SOLDIER;
 					chessboard[i*DIM+j].size = 1;
-					chessboard[i*DIM+j].capacity = 3;
+					
 				}else{
-					chessboard[i*DIM+j].torre = NULL;
+					chessboard[i*DIM+j].tower = NULL;
 					chessboard[i*DIM+j].size = -1;
-					chessboard[i*DIM+j].capacity = 0;
+					
 				}
 			}
 		}
@@ -415,25 +418,25 @@ void matrice(colonna_t* chessboard) {
 }
 
 
-void campo(int lato, int dim, colonna_t* partita) {
+void campo(int lato, int dim, cols_t* partita) {
 
 	int numeri[7] = { 1,2,3,4,5,6,7 };
 	char lettere[9] = { '/','a','b','c','d','e','f','g','/' };
-	int riga,riga_casella,colonna,colonna_casella,t;
+	int riga,riga_casella,cols,cols_casella,t;
     printf("\n");
 	for(riga=0;riga<9;riga++){
         for(t=0;t<55;t++)printf("-");
         printf("\n");
         if(riga==0 || riga==8){            
             for(riga_casella=0;riga_casella<5;riga_casella++){
-                for(colonna=0;colonna<9;colonna++){
+                for(cols=0;cols<9;cols++){
                     printf("|");
                     if(riga_casella==2){
-                        for(colonna_casella=0;colonna_casella<5;colonna_casella++){
-                            printf("%c",lettere[colonna]);
+                        for(cols_casella=0;cols_casella<5;cols_casella++){
+                            printf("%c",lettere[cols]);
                         }
                     }else{
-                        for(colonna_casella=0;colonna_casella<5;colonna_casella++){
+                        for(cols_casella=0;cols_casella<5;cols_casella++){
                             printf(" ");
                         }
                     }
@@ -444,14 +447,14 @@ void campo(int lato, int dim, colonna_t* partita) {
         }else{
             for(riga_casella=0;riga_casella<5;riga_casella++){
                 printf("|  %d  |",numeri[riga-1]);
-                for(colonna=0;colonna<7;colonna++){
-                    for(colonna_casella=0;colonna_casella<5;colonna_casella++){
-						if((riga+colonna)%2==0){
+                for(cols=0;cols<7;cols++){
+                    for(cols_casella=0;cols_casella<5;cols_casella++){
+						if((riga+cols)%2==0){
                             printf("°");
                         }else{
-							t=partita[(riga-1)*7+(colonna)].size;
-							if(colonna_casella==2 && riga_casella>0 && riga_casella<4 && t+riga_casella>3){
-								printf("%c",partita[(riga-1)*7+(colonna)].torre[t+riga_casella-4].nome);
+							t=partita[(riga-1)*7+(cols)].size;
+							if(cols_casella==2 && riga_casella>0 && riga_casella<4 && t+riga_casella>3){
+								printf("%c",partita[(riga-1)*7+(cols)].tower[t+riga_casella-4].name);
 							}else{
 								printf(" ");
 							}
@@ -467,15 +470,15 @@ void campo(int lato, int dim, colonna_t* partita) {
 	printf("\n");
 }
 
-int evaluation (colonna_t* scacchiera){
+int evaluation (cols_t* board){
 	int i = 0;
 	int j = 0;
 	int counter = 0;
 	
 	for(i = 0; i < DIM; i++){
 		for(j = 0; j < DIM; j++){
-			if(scacchiera[i*DIM + j].size){
-				if(scacchiera[i*DIM + j].torre[0].colore == BLACK){
+			if(board[i*DIM + j].size){
+				if(board[i*DIM + j].tower[0].color == BLACK){
 					counter --;
 				}else{
 					counter ++;
@@ -502,16 +505,16 @@ int min(int n1, int n2){
 	return n2;
 }
 
-int minimax(colonna_t* scacchiera, int depth, int player){
+int minimax(cols_t* board, int depth, int player){
 	//i bianchi (0) massimizzano
 	
-	struct lista_mosse* l_og = NULL;
-	struct lista_mosse* l = NULL;
-	l_og = analisi_mosse(l_og, scacchiera, player);
+	struct list_of_moves* l_og = NULL;
+	struct list_of_moves* l = NULL;
+	l_og = analisi_mosse(l_og, board, player);
 	l_og = filtrare(l_og);
 	
 	if(depth == 0 || l_og == NULL){
-		return evaluation(scacchiera);
+		return evaluation(board);
 	}
 
 	if(player == WHITE){
@@ -519,12 +522,12 @@ int minimax(colonna_t* scacchiera, int depth, int player){
 		int eval = 0;
 		l = l_og;
 		while(l){
-			check_and_do_promotion (l->scacchiera, 0);
-			eval = minimax(l->scacchiera, depth - 1, !player);
+			check_and_do_promotion (l->board, 0);
+			eval = minimax(l->board, depth - 1, !player);
 			maxEval = max(maxEval, eval);
 			l = l->next;
 		}
-		l_og = elimina(l_og);
+		l_og = destroy(l_og);
 		return maxEval;
 
 	}else{
@@ -532,36 +535,36 @@ int minimax(colonna_t* scacchiera, int depth, int player){
 		int eval = 0;
 		l = l_og;
 		while(l){
-			check_and_do_promotion (l->scacchiera, 0);
-			eval = minimax(l->scacchiera, depth -1, !player);
+			check_and_do_promotion (l->board, 0);
+			eval = minimax(l->board, depth -1, !player);
 			minEval = min(minEval, eval);
 			l = l->next;
 		}
 
-		l_og = elimina(l_og);
+		l_og = destroy(l_og);
 		return minEval;
 	}
 
 }
 
-char* estrai_descrizione (lista_mosse_t* l, int n){
+char* estrai_description (list_of_moves_t* l, int n){
 	int i;
 
 	for(i=1; i<n; i++){ 
 		l=l->next;
 	}
 
-	return l->descrizione;
+	return l->description;
 }
 
-int macro_ai (colonna_t* scacchiera, struct lista_mosse* l, int depth, int player){
+int macro_ai (cols_t* board, struct list_of_moves* l, int depth, int player){
 	//i neri minimizzano e i bianchi massimizzano
 	int max = INT_MIN; 
 	int pos = 0;
 	int  res = 0;
 	if(l){
 		while(l){
-			int new = minimax(l->scacchiera, depth, player);
+			int new = minimax(l->board, depth, player);
 			//printf("prova %d \n", pos);
 			if(max < new){
 				max = new;
@@ -582,14 +585,14 @@ int macro_ai (colonna_t* scacchiera, struct lista_mosse* l, int depth, int playe
 
 int main (){  
 			
-	colonna_t* scacchiera = (colonna_t*) malloc(sizeof(colonna_t) * 49);
-	struct lista_mosse* l = NULL;
+	cols_t* board = (cols_t*) malloc(sizeof(cols_t) * 49);
+	struct list_of_moves* l = NULL;
 	
 	int n=0, scelta=0;
 	int player = PLAYER_1;
 	int modalita_gioco = 0;
 
-	matrice(scacchiera);
+	matrice(board);
 
 	while(modalita_gioco < 1 || modalita_gioco > 2){
 		printf("Vuoi giocare contro il COMPUTER (1) o contro un altro giocatore(2)? \n");
@@ -600,12 +603,12 @@ int main (){
 
 	if(modalita_gioco == 1){//modalità COMPUTER
 		while(player == PLAYER_1 || player == PLAYER_2){
-			campo(9,5,scacchiera);
+			campo(9,5,board);
 			printf("PLAYER 1: AI, PLAYER 2: utente \n");
 			printf("player = %d \n", player);
 			printf("turno %c\n",87-(player*21));
 
-			l = analisi_mosse(l, scacchiera, player);
+			l = analisi_mosse(l, board, player);
 			if(l == NULL){
 				printf("GAME OVER: ha vinto %c\n",87-(!player*21));
 				exit(EXIT_FAILURE);
@@ -614,10 +617,10 @@ int main (){
 			l = filtrare(l);
 				
 			if(player == PLAYER_1){
-				scelta = macro_ai(scacchiera, l, DEPTH, player);
-				copia_scacchiera(estrai(l,scelta),scacchiera);
-				//stampa descrizione mossa scelta
-				printf("W ha giocato %s\n",estrai_descrizione(l, scelta));
+				scelta = macro_ai(board, l, DEPTH, player);
+				copy_board(estrai(l,scelta),board);
+				//stampa description mossa scelta
+				printf("W ha giocato %s\n",estrai_description(l, scelta));
 			}else{ //se gioca l'utente
 				/*stampa lista mosse*/
 				stampa_mosse(l, &n);
@@ -628,14 +631,14 @@ int main (){
 					scanf("%d", &scelta);
 				}while(scelta > n || scelta<1);
 
-				copia_scacchiera(estrai(l,scelta),scacchiera);
+				copy_board(estrai(l,scelta),board);
 
 			}
 		
-			l=elimina(l);
+			l=destroy(l);
 					
 			/*eventuale promozione*/
-			check_and_do_promotion (scacchiera, 1);
+			check_and_do_promotion (board, 1);
 
 			/*cambio giocatore*/
 			player= !player;
@@ -643,9 +646,9 @@ int main (){
 		
 	}else{ //per la condizione del while siamo sicuri che o è 1 o è 2
 		while(player == PLAYER_1 || player == PLAYER_2){
-			campo(9,5,scacchiera);
+			campo(9,5,board);
 			printf("turno %c\n",87-(player*21));
-			l = analisi_mosse(l, scacchiera, player);
+			l = analisi_mosse(l, board, player);
 			if(l == NULL){
 				printf("GAME OVER: ha vinto %c\n",87-(!player*21));
 				exit(EXIT_FAILURE);
@@ -663,11 +666,11 @@ int main (){
 				scanf("%d", &scelta);
 			}while(scelta > n || scelta<1);
 
-			copia_scacchiera(estrai(l,scelta),scacchiera);
+			copy_board(estrai(l,scelta),board);
 
-			l=elimina(l);
+			l=destroy(l);
 			/*eventuale promozione*/
-			check_and_do_promotion (scacchiera, 1);
+			check_and_do_promotion (board, 1);
 
 					
 			/*cambio giocatore*/
