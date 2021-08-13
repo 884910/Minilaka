@@ -19,7 +19,7 @@ struct pawn {
 	int color;
 	char name;
 	char rank;
-} pawns_t;
+} pawn_t;
 
 /*struct col*/
 typedef
@@ -27,7 +27,7 @@ struct col {
 	int capacity;
 	int size;
 	//array di struct pawn
-	struct pawn* tower;
+	pawn_t* tower;
 }col_t;
 
 typedef
@@ -38,7 +38,7 @@ struct moves_list{
     struct moves_list* next;
 }moves_list_t;
 
-void copy_pawn (pawns_t* p_dst, pawns_t* p_src){  
+void copy_pawn (pawn_t* p_dst, pawn_t* p_src){  
 	p_dst->name = p_src->name;
 	p_dst->rank = p_src->rank;
 	p_dst->color = p_src->color;
@@ -49,7 +49,7 @@ void copy_board(col_t* src, col_t* dst){
 	for(i=0;i<DIM;i++){									
 		for(j=0;j<DIM;j++){
 			if(src[i*DIM+j].tower!=NULL){
-				dst[i*DIM+j].tower = (pawns_t*) malloc(sizeof(pawns_t) * 3);
+				dst[i*DIM+j].tower = (pawn_t*) malloc(sizeof(pawn_t) * 3);
 				for(k=0;k<3;k++){
 					copy_pawn(&(dst[i*DIM+j].tower[k]),&(src[i*DIM+j].tower[k]));
 				}
@@ -321,7 +321,7 @@ void matrix(col_t* board) {
 		for(j=0; j<DIM; j++){
 			if(i<=2){
 				if((i*DIM+j) % 2 == 0){
-					board[i*DIM+j].tower = (pawns_t*) malloc(sizeof(pawns_t) * 3);
+					board[i*DIM+j].tower = (pawn_t*) malloc(sizeof(pawn_t) * 3);
 
 					if (!board[i * DIM + j].tower) {
 						printf("Errore di allocazione di memoria");
@@ -340,7 +340,7 @@ void matrix(col_t* board) {
 				}
 			}else if(i == 3){                                                                     
 				if((i*DIM+j) % 2 == 0){
-					board[i*DIM+j].tower = (pawns_t*) malloc(sizeof(pawns_t) * 3);
+					board[i*DIM+j].tower = (pawn_t*) malloc(sizeof(pawn_t) * 3);
 
 					if (!board[i * DIM + j].tower) {
 						printf("Errore di allocazione di memoria");
@@ -356,7 +356,7 @@ void matrix(col_t* board) {
 				}
 			}else{
 				if((i*DIM+j) % 2 == 0){
-					board[i*DIM+j].tower = (pawns_t*) malloc(sizeof(pawns_t) * 3);
+					board[i*DIM+j].tower = (pawn_t*) malloc(sizeof(pawn_t) * 3);
 
 					if (!board[i * DIM + j].tower) {
 						printf("Errore di allocazione di memoria");
@@ -470,8 +470,8 @@ int min(int n1, int n2){
 int minimax(col_t* board, int depth, int player){
 	//i bianchi (0) massimizzano
 	
-	struct moves_list* l_og = NULL;
-	struct moves_list* l = NULL;
+	moves_list_t* l_og = NULL;
+	moves_list_t* l = NULL;
     
 	l_og = moves_analysis(l_og, board, player);
 	
