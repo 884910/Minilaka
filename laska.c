@@ -68,18 +68,18 @@ void simple_shift(struct cols* board, int x0, int y0, int xd, int yd){
 		copy_pawns(&(board[yd * DIM + xd].tower[i]), &(board[y0 * DIM + x0].tower[i]));
 	}
 	
-	board[yd * DIM + xd].size = board[y0*7+x0].size;
+	board[yd * DIM + xd].size = board[y0*DIM+x0].size;
 	board[y0 * DIM + x0].size=0;
 	free(board[y0 * DIM + x0].tower);
 }
 
 void capture(struct cols* board, int x0, int y0, int x1, int y1, int xd, int yd) {
-	int sizeatt = board[y0 * 7 + x0].size;
+	int sizeatt = board[y0 * DIM + x0].size;
 	int i;
 
 
 	if (sizeatt != 3) {
-		copy_pawns(&board[y0 * 7 + x0].tower[sizeatt], &board[y1 * 7 + x1].tower[0]);
+		copy_pawns(&board[y0 * DIM + x0].tower[sizeatt], &board[y1 * DIM + x1].tower[0]);
 		board[y0 * 7 + x0].size++;
 	}
 
@@ -90,27 +90,27 @@ void capture(struct cols* board, int x0, int y0, int x1, int y1, int xd, int yd)
 		/*mi basta l'array, perchè con la free libero tower e non l'intera struct colonna*/
 		pawns_t* tower = (pawns_t*)malloc(sizeof(pawns_t) * 3);
 		for (int i = 0; i < 3; i++) {
-			copy_pawns(&board[y0 * 7 + x0].tower[i], &tower[i]);
+			copy_pawns(&board[y0 * DIM + x0].tower[i], &tower[i]);
 		}
-		free(board[y0 * 7 + x0].tower);
-		board[y0 * 7 + x0].size--;
-		board[y0 * 7 + x0].tower = (pawns_t*)malloc(sizeof(pawns_t) * 3);
+		free(board[y0 * DIM + x0].tower);
+		board[y0 * DIM + x0].size--;
+		board[y0 * DIM + x0].tower = (pawns_t*)malloc(sizeof(pawns_t) * 3);
 		//board[y0*7+x0].tower=tower;
 		for (int i = 0; i < 3; i++) {
-			copy_pawns(&tower[i], &board[y0 * 7 + x0].tower[i]);
+			copy_pawns(&tower[i], &board[y0 * DIM + x0].tower[i]);
 		}
 		free(tower);
 	}
 
 
-	board[y1 * 7 + x1].size--;
-	if (board[y1 * 7 + x1].size != 0) {
-		for (i = 0; i < board[y1 * 7 + x1].size; i++) {
-			copy_pawns(&board[y1 * 7 + x1].tower[i], &board[y1 * 7 + x1].tower[i + 1]);
+	board[y1 * DIM + x1].size--;
+	if (board[y1 * DIM + x1].size != 0) {
+		for (i = 0; i < board[y1 * DIM + x1].size; i++) {
+			copy_pawns(&board[y1 * DIM + x1].tower[i], &board[y1 * DIM + x1].tower[i + 1]);
 		}
 	}
 	else {
-		free(board[y1 * 7 + x1].tower);
+		free(board[y1 * DIM + x1].tower);
 	}
 	simple_shift(board, x0, y0, xd, yd);
 	/*int sizeatt = board[y0 * DIM + x0].size;
