@@ -7,13 +7,13 @@ minilaska: main.o ai.o moves_analysis.o board.o
 board.o: board.h board.c
 	$(CC) -c board.c -o board.o $(FLAGS)
 
-moves_analysis.o: moves_analysis.h moves_analysis.c board.o
+moves_analysis.o: moves_analysis.h moves_analysis.c
 	$(CC) -c moves_analysis.c -o moves_analysis.o $(FLAGS)
 
-ai.o: ai.h ai.c moves_analysis.o
+ai.o: ai.h ai.c
 	$(CC) -c ai.c -o ai.o $(FLAGS)
 
-main.o: main.c ai.o
+main.o: main.c
 	$(CC) -c main.c -o main.o $(FLAGS)
 
 clean:

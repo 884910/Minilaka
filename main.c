@@ -1,3 +1,14 @@
+/**
+ * @file main.c
+ * @authors Andrea Giacomello, Carola Pessotto, Serena Zanon
+ * @mainpage Minilaska
+ * @section intro Introduzione
+ * 
+ * Presentiamo un'implementazione di mini-Laska, ovvero una variante del gioco originale http://www.lasca.org/ .
+ * Rispetto al gioco originale miniLaska prevede le seguenti limitazioni:
+ *  • si può mangiare/conquistare una sola volta per mossa
+ *  • le torri possono essere alte al massimo 3 pedine, superato questo limite, la pedina più in basso viene rimossa dalla scacchiera
+ **/
 #include "ai.h"
 int main (){  
 			

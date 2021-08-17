@@ -82,17 +82,16 @@ int minimax(col_t* board, int depth, int player){
 
 int macro_ai (moves_list_t* l, int depth, int player){
 	//i neri minimizzano e i bianchi massimizzano
+	
 	int max = INT_MIN; 
 	int pos = 0;
 	int  res = 0;
 	if(l){
 		while(l){
 			int new = minimax(l->board, depth, player);
-			//printf("prova %d \n", pos);
 			if(max < new){
 				max = new;
 				res = pos + 1;
-				//printf("%d valutazione board %d  description mossa %s \n", count, new, l->description);
 			}
 
 			pos++;

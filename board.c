@@ -11,7 +11,9 @@ void copy_board(col_t* src, col_t* dst){
 	for(i=0;i<DIM;i++){									
 		for(j=0;j<DIM;j++){
 			if(src[i*DIM+j].tower!=NULL){
-				dst[i*DIM+j].tower = (pawn_t*) malloc(sizeof(pawn_t) * 3);
+				if(dst[i*DIM+j].tower == NULL){
+					dst[i*DIM+j].tower = (pawn_t*) malloc(sizeof(pawn_t) * 3);
+				}
 				for(k=0;k<3;k++){
 					copy_pawn(&(dst[i*DIM+j].tower[k]),&(src[i*DIM+j].tower[k]));
 				}
@@ -21,7 +23,7 @@ void copy_board(col_t* src, col_t* dst){
 	}
 }
 
-void check_and_do_promotion (col_t* board, int to_print){ //possibilmente da scartare e da implementare in spostamento semplice
+void check_and_do_promotion (col_t* board, int to_print){ 
    	int j;													
 	for (j=0; j<DIM; j++){
     	if(board[6*DIM + j].tower != NULL){
@@ -30,7 +32,7 @@ void check_and_do_promotion (col_t* board, int to_print){ //possibilmente da sca
                 board[6*DIM + j].tower[0].rank = OFFICER;
                 board[6*DIM + j].tower[0].name -= 32;
 				if(to_print){
-					printf("%c7 è rank promosso", j+65);
+					printf("%c7 è stato promosso", j+65);
 				}
                 //to_print == 0 solo in minimax() che è ricorsiva
             }
