@@ -54,7 +54,7 @@ void check_and_do_promotion (col_t* board, int to_print){
 	}    
 }
 
-/*funzione che crea la matrix di struct colonne*/
+/*funzione che crea la matrice di struct colonne*/
 void matrix(col_t* board) {
 	int i, j;
 	for(i=0; i<DIM; i++){
@@ -72,7 +72,7 @@ void matrix(col_t* board) {
 					board[i*DIM+j].tower[0].name = 'w';
 					board[i*DIM+j].tower[0].rank = SOLDIER;
 					board[i*DIM+j].size = 1;
-					board[i*DIM+j].capacity = 3;      //capacity non serve a una ceppa
+					board[i*DIM+j].capacity = 3;     
 				}else{
 					board[i*DIM+j].tower = NULL;
 					board[i*DIM+j].size = -1;
