@@ -54,7 +54,7 @@ int main (){
 				/*to_print list mosse*/
 				print_moves(l, &n);
 				
-				/*acquisisci ed esegui la mossa choice*/
+				/*acquisisci ed esegui la mossa scelta*/
 				do{
 					printf("Digita il numero della mossa che desideri eseguire.\n");
 					scanf("%d", &choice);
@@ -89,7 +89,7 @@ int main (){
 			print_moves(l, &n);
 				
 
-			/*acquisisci ed esegui la mossa choice*/
+			/*acquisisci ed esegui la mossa scelta*/
 			do{
 				printf("Digita il numero della mossa che desideri eseguire.\n");
 				scanf("%d", &choice);
