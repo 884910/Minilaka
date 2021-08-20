@@ -109,13 +109,13 @@ moves_list_t* moves_analysis (moves_list_t* l, col_t* board, int player){
 		for(j=0;j<DIM;j++){
 			//ciclo di scan della board
 
-			if(board[i*DIM+j].tower != NULL){ //controllo se c'è una pawn
+			if(board[i*DIM+j].tower != NULL){ //controllo se c'è una pedina
 				
-				if(board[i*DIM+j].tower[0].color == color){ //se la pawn è del giocatore del player corrente
+				if(board[i*DIM+j].tower[0].color == color){ //se la pedina è del giocatore del giocatore corrente
 
 					if(board[i*DIM+j].tower[0].rank == OFFICER || (board[i*DIM+j].tower[0].rank == SOLDIER && color == WHITE)){  //set mosse in giù
 						if(i+1 < DIM){ 
-							//caso spostamento semplice per i bianchi soldati
+							//caso spostamento semplice per i soldati bianchi 
 							if (j-1>=0){
 								if(board[(i+1)*DIM + (j-1)].size == 0){
 									l=insert_simple_shift (l, board, j, i, j-1, i+1);	
@@ -140,7 +140,7 @@ moves_list_t* moves_analysis (moves_list_t* l, col_t* board, int player){
 					if(board[i*DIM+j].tower[0].rank==OFFICER || (board[i*DIM+j].tower[0].rank==SOLDIER && color==BLACK)){ //set di mosse in su
 						if(i-1 >= 0){
 							if(j-1 >= 0){
-								//caso spostamento semplice per i neri soldati
+								//caso spostamento semplice per i soldati neri
 								if(board[(i-1)*DIM + (j-1)].size == 0){
 									l=insert_simple_shift (l, board, j, i, j-1, i-1);
 								}else if(board[(i-1)*DIM + (j-1)].tower[0].color == enemy_color){ //la casella è occupata da qualcuno che potrei mangiare?
@@ -170,7 +170,7 @@ moves_list_t* moves_analysis (moves_list_t* l, col_t* board, int player){
 }
 
 moves_list_t*  filter (moves_list_t* l){
-	int flag = 0; //variabile bool che diventa 1 se e solo se ci sono mosse nella list con obbligatorietà == 1
+	int flag = 0; //variabile bool che diventa 1 se e solo se ci sono mosse nella lista con obbligatorietà == 1
 	moves_list_t* list = l;
 	moves_list_t* tmp_head = NULL;
 	moves_list_t* temp = NULL;
