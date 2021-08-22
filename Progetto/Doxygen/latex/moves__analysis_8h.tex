@@ -1,0 +1,353 @@
+\hypertarget{moves__analysis_8h}{}\doxysection{Riferimenti per il file moves\+\_\+analysis.\+h}
+\label{moves__analysis_8h}\index{moves\_analysis.h@{moves\_analysis.h}}
+{\ttfamily \#include \char`\"{}board.\+h\char`\"{}}\newline
+Grafo delle dipendenze di inclusione per moves\+\_\+analysis.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=273pt]{moves__analysis_8h__incl}
+\end{center}
+\end{figure}
+Questo grafo mostra quali altri file includono direttamente o indirettamente questo file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=184pt]{moves__analysis_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Funzioni}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{moves__analysis_8h_adddc00fb715a981fd8ae99341c3e7b15}{simple\+\_\+shift}} (\mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$board, int x0, int y0, int xd, int yd)
+\begin{DoxyCompactList}\small\item\em simple\+\_\+shift esegue lo spostamento semplice da una casella iniziale ad una di destinazione \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{moves__analysis_8h_a5f92ff8779e2d17d40424c1e94e40881}{capture}} (\mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$board, int x0, int y0, int x1, int y1, int xd, int yd)
+\begin{DoxyCompactList}\small\item\em capture esegue la mangiata di una pedina/torre da parte di un\textquotesingle{}altra pedina/torre \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$ \mbox{\hyperlink{moves__analysis_8h_ae227b59e8bbbda84c3a34a5ab687a410}{destroy}} (\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$l)
+\begin{DoxyCompactList}\small\item\em destroy elimina la lista di mosse ricorsivamente \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{moves__analysis_8h_ad461ac98b4418d12507eaa22ea8345ab}{fill\+\_\+description1}} (char $\ast$desc, int x0, int y0, int xd, int yd)
+\begin{DoxyCompactList}\small\item\em fill\+\_\+description1 scrive sul campo description della mossa di spostamento semplice \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{moves__analysis_8h_a8a9acaf352b9f744062b089cb6c8905a}{fill\+\_\+description2}} (char $\ast$desc, int x0, int y0, int x1, int y1, int xd, int yd)
+\begin{DoxyCompactList}\small\item\em fill\+\_\+description2 scrive sul campo description della mossa di mangiata \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$ \mbox{\hyperlink{moves__analysis_8h_ae344747ba663bc97aa1bc9e3b62e3c9f}{union\+\_\+list}} (\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$head, \mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$new\+\_\+list)
+\begin{DoxyCompactList}\small\item\em union\+\_\+list, date due liste in entrata, accoda la seconda alla prima \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$ \mbox{\hyperlink{moves__analysis_8h_a8503c3d6170be3274cf875558850595f}{insert\+\_\+simple\+\_\+shift}} (\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$l, \mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$board, int x0, int y0, int xd, int yd)
+\begin{DoxyCompactList}\small\item\em insert\+\_\+simple\+\_\+shift riempie correttamente i campi della struct \mbox{\hyperlink{structmoves__list}{moves\+\_\+list}} nel caso di spostamento semplice chiamando le funzioni ausiliari sopra descritte \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$ \mbox{\hyperlink{moves__analysis_8h_a54c8f69d661d1f1a3decd18b68aaa4cd}{insert\+\_\+capture}} (\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$l, \mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$board, int x0, int y0, int x1, int y1, int xd, int yd)
+\begin{DoxyCompactList}\small\item\em insert\+\_\+capture riempie correttamente i campi della struct \mbox{\hyperlink{structmoves__list}{moves\+\_\+list}} nel caso di mangiata \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$ \mbox{\hyperlink{moves__analysis_8h_aeb2745fc784f3793532c07e842ff058e}{moves\+\_\+analysis}} (\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$l, \mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$board, int player)
+\begin{DoxyCompactList}\small\item\em moves\+\_\+analysis, analizzando l\textquotesingle{}intera scacchiera, controlla che siano verificate le condizioni necessarie per eseguire una mossa (spostamento semplice o mangiata) \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$ \mbox{\hyperlink{moves__analysis_8h_a911e166897fa124b7949b9f12ffbfd32}{filter}} (\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$l)
+\begin{DoxyCompactList}\small\item\em filter scorre la lista di mosse individuando le eventuali mosse obbligatorie presenti \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{moves__analysis_8h_a2463016ef0090061a61c71957486300e}{print\+\_\+moves}} (\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$l, int $\ast$n)
+\begin{DoxyCompactList}\small\item\em print\+\_\+moves scorre la lista di mosse e stampa il contenuto del campo description di ogni cella \end{DoxyCompactList}\item 
+\mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$ \mbox{\hyperlink{moves__analysis_8h_a5a8593dd2eb91e1c02d5620ad5ef4648}{estract}} (\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$l, int n)
+\begin{DoxyCompactList}\small\item\em estract estrae la scacchiera associata alla mossa scelta dal giocatore del turno \end{DoxyCompactList}\item 
+char $\ast$ \mbox{\hyperlink{moves__analysis_8h_a58ef7466ee86c508ad8812c8c9300b1a}{estract\+\_\+description}} (\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$l, int n)
+\begin{DoxyCompactList}\small\item\em estract\+\_\+description estrae la descrizione associata alla mossa scelta dal giocatore del turno \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Documentazione delle funzioni}
+\mbox{\Hypertarget{moves__analysis_8h_a5f92ff8779e2d17d40424c1e94e40881}\label{moves__analysis_8h_a5f92ff8779e2d17d40424c1e94e40881}} 
+\index{moves\_analysis.h@{moves\_analysis.h}!capture@{capture}}
+\index{capture@{capture}!moves\_analysis.h@{moves\_analysis.h}}
+\doxysubsubsection{\texorpdfstring{capture()}{capture()}}
+{\footnotesize\ttfamily void capture (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$}]{board,  }\item[{int}]{x0,  }\item[{int}]{y0,  }\item[{int}]{x1,  }\item[{int}]{y1,  }\item[{int}]{xd,  }\item[{int}]{yd }\end{DoxyParamCaption})}
+
+
+
+capture esegue la mangiata di una pedina/torre da parte di un\textquotesingle{}altra pedina/torre 
+
+regolandosi a seconda dei valori dei campi size delle due pedine/torri coinvolte, in primo luogo esegue la mangiata e successivamente effettua lo spostamento semplice verso la casella di destinazione 
+\begin{DoxyParams}{Parametri}
+{\em board} & scacchiera su cui eseguire la mangiata \\
+\hline
+{\em x0} & coordinata x della casella iniziale (ovvero quella del mangiante) \\
+\hline
+{\em y0} & coordinata y della casella iniziale (ovvero quella del mangiante) \\
+\hline
+{\em x1} & coordinata x della casella del mangiato ~\newline
+ \\
+\hline
+{\em y1} & coordinata y della casella del mangiato ~\newline
+ \\
+\hline
+{\em xd} & coordinata x della casella di destinazione su cui termina la mossa \\
+\hline
+{\em yd} & coordinata y della casella di destinazione su cui termina la mossa \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{moves__analysis_8h_ae227b59e8bbbda84c3a34a5ab687a410}\label{moves__analysis_8h_ae227b59e8bbbda84c3a34a5ab687a410}} 
+\index{moves\_analysis.h@{moves\_analysis.h}!destroy@{destroy}}
+\index{destroy@{destroy}!moves\_analysis.h@{moves\_analysis.h}}
+\doxysubsubsection{\texorpdfstring{destroy()}{destroy()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}}$\ast$ destroy (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$}]{l }\end{DoxyParamCaption})}
+
+
+
+destroy elimina la lista di mosse ricorsivamente 
+
+
+\begin{DoxyParams}{Parametri}
+{\em l} & lista di mosse da eliminare \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Restituisce}
+ritorna un puntatore a N\+U\+LL 
+\end{DoxyReturn}
+\mbox{\Hypertarget{moves__analysis_8h_a5a8593dd2eb91e1c02d5620ad5ef4648}\label{moves__analysis_8h_a5a8593dd2eb91e1c02d5620ad5ef4648}} 
+\index{moves\_analysis.h@{moves\_analysis.h}!estract@{estract}}
+\index{estract@{estract}!moves\_analysis.h@{moves\_analysis.h}}
+\doxysubsubsection{\texorpdfstring{estract()}{estract()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}}$\ast$ estract (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$}]{l,  }\item[{int}]{n }\end{DoxyParamCaption})}
+
+
+
+estract estrae la scacchiera associata alla mossa scelta dal giocatore del turno 
+
+scorre la lista di mosse fino alla cella corrispondente al numero della scelta effettuata dal giocatore del turno da cui estrae la scacchiera ~\newline
+ 
+\begin{DoxyParams}{Parametri}
+{\em l} & puntatore alla lista di mosse \\
+\hline
+{\em n} & numero della scelta effettuata dal giocatore del turno \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Restituisce}
+ritorna la scacchiera associata alla mossa scelta dal giocatore del turno 
+\end{DoxyReturn}
+\mbox{\Hypertarget{moves__analysis_8h_a58ef7466ee86c508ad8812c8c9300b1a}\label{moves__analysis_8h_a58ef7466ee86c508ad8812c8c9300b1a}} 
+\index{moves\_analysis.h@{moves\_analysis.h}!estract\_description@{estract\_description}}
+\index{estract\_description@{estract\_description}!moves\_analysis.h@{moves\_analysis.h}}
+\doxysubsubsection{\texorpdfstring{estract\_description()}{estract\_description()}}
+{\footnotesize\ttfamily char$\ast$ estract\+\_\+description (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$}]{l,  }\item[{int}]{n }\end{DoxyParamCaption})}
+
+
+
+estract\+\_\+description estrae la descrizione associata alla mossa scelta dal giocatore del turno 
+
+scorre la lista di mosse fino alla cella corrispondente al numero della scelta effettuata dal giocatore del turno da cui estrae il campo description 
+\begin{DoxyParams}{Parametri}
+{\em l} & puntatore alla lista di mosse \\
+\hline
+{\em n} & numero della scelta effettuata dal giocatore del turno \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Restituisce}
+ritorna un array di char contenente la descrizione associata alla mossa scelta dal giocatore del turno 
+\end{DoxyReturn}
+\mbox{\Hypertarget{moves__analysis_8h_ad461ac98b4418d12507eaa22ea8345ab}\label{moves__analysis_8h_ad461ac98b4418d12507eaa22ea8345ab}} 
+\index{moves\_analysis.h@{moves\_analysis.h}!fill\_description1@{fill\_description1}}
+\index{fill\_description1@{fill\_description1}!moves\_analysis.h@{moves\_analysis.h}}
+\doxysubsubsection{\texorpdfstring{fill\_description1()}{fill\_description1()}}
+{\footnotesize\ttfamily void fill\+\_\+description1 (\begin{DoxyParamCaption}\item[{char $\ast$}]{desc,  }\item[{int}]{x0,  }\item[{int}]{y0,  }\item[{int}]{xd,  }\item[{int}]{yd }\end{DoxyParamCaption})}
+
+
+
+fill\+\_\+description1 scrive sul campo description della mossa di spostamento semplice 
+
+
+\begin{DoxyParams}{Parametri}
+{\em desc} & puntatore all\textquotesingle{}array di char su cui scrivere (è il campo description della struct \mbox{\hyperlink{structmoves__list}{moves\+\_\+list}}) \\
+\hline
+{\em x0} & coordinata x della casella iniziale \\
+\hline
+{\em y0} & coordinata y della casella iniziale \\
+\hline
+{\em xd} & coordinata x della casella di destinazione \\
+\hline
+{\em yd} & coordinata y della casella di destinazione \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{moves__analysis_8h_a8a9acaf352b9f744062b089cb6c8905a}\label{moves__analysis_8h_a8a9acaf352b9f744062b089cb6c8905a}} 
+\index{moves\_analysis.h@{moves\_analysis.h}!fill\_description2@{fill\_description2}}
+\index{fill\_description2@{fill\_description2}!moves\_analysis.h@{moves\_analysis.h}}
+\doxysubsubsection{\texorpdfstring{fill\_description2()}{fill\_description2()}}
+{\footnotesize\ttfamily void fill\+\_\+description2 (\begin{DoxyParamCaption}\item[{char $\ast$}]{desc,  }\item[{int}]{x0,  }\item[{int}]{y0,  }\item[{int}]{x1,  }\item[{int}]{y1,  }\item[{int}]{xd,  }\item[{int}]{yd }\end{DoxyParamCaption})}
+
+
+
+fill\+\_\+description2 scrive sul campo description della mossa di mangiata 
+
+
+\begin{DoxyParams}{Parametri}
+{\em desc} & puntatore all\textquotesingle{}array di char su cui scrivere (è il campo description della struct \mbox{\hyperlink{structmoves__list}{moves\+\_\+list}}) \\
+\hline
+{\em x0} & coordinata x della casella iniziale (ovvero quella del mangiante) \\
+\hline
+{\em y0} & coordinata y della casella iniziale (ovvero quella del mangiante) \\
+\hline
+{\em x1} & coordinata x della casella del mangiato ~\newline
+ \\
+\hline
+{\em y1} & coordinata y della casella del mangiato ~\newline
+ \\
+\hline
+{\em xd} & coordinata x della casella di destinazione su cui termina la mossa \\
+\hline
+{\em yd} & coordinata y della casella di destinazione su cui termina la mossa \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{moves__analysis_8h_a911e166897fa124b7949b9f12ffbfd32}\label{moves__analysis_8h_a911e166897fa124b7949b9f12ffbfd32}} 
+\index{moves\_analysis.h@{moves\_analysis.h}!filter@{filter}}
+\index{filter@{filter}!moves\_analysis.h@{moves\_analysis.h}}
+\doxysubsubsection{\texorpdfstring{filter()}{filter()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}}$\ast$ filter (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$}]{l }\end{DoxyParamCaption})}
+
+
+
+filter scorre la lista di mosse individuando le eventuali mosse obbligatorie presenti 
+
+controlla il campo mandatory di ogni cella della lista, il quale ha valore 1 se la mossa è una mangiata altrimenti vale 0 nel caso di spostamento semplice 
+\begin{DoxyParams}{Parametri}
+{\em l} & lista mosse da filtrare \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Restituisce}
+in presenza di mosse obbligatorie è ritornata la lista di mosse passata in entrata ora filtrata, altrimenti è ritornata la lista passata in entrata e non modificata 
+\end{DoxyReturn}
+\mbox{\Hypertarget{moves__analysis_8h_a54c8f69d661d1f1a3decd18b68aaa4cd}\label{moves__analysis_8h_a54c8f69d661d1f1a3decd18b68aaa4cd}} 
+\index{moves\_analysis.h@{moves\_analysis.h}!insert\_capture@{insert\_capture}}
+\index{insert\_capture@{insert\_capture}!moves\_analysis.h@{moves\_analysis.h}}
+\doxysubsubsection{\texorpdfstring{insert\_capture()}{insert\_capture()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}}$\ast$ insert\+\_\+capture (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$}]{l,  }\item[{\mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$}]{board,  }\item[{int}]{x0,  }\item[{int}]{y0,  }\item[{int}]{x1,  }\item[{int}]{y1,  }\item[{int}]{xd,  }\item[{int}]{yd }\end{DoxyParamCaption})}
+
+
+
+insert\+\_\+capture riempie correttamente i campi della struct \mbox{\hyperlink{structmoves__list}{moves\+\_\+list}} nel caso di mangiata 
+
+è chiamata all\textquotesingle{}interno della funzione moves\+\_\+analysis 
+\begin{DoxyParams}{Parametri}
+{\em l} & puntatore alla lista di mosse a cui aggiungere in coda la nuova cella \\
+\hline
+{\em board} & scacchiera prima dell\textquotesingle{}esecuzione della mossa di mangiata che viene poi eseguita all\textquotesingle{}interno di questa funzione \\
+\hline
+{\em x0} & coordinata x della casella iniziale (ovvero quella del mangiante) \\
+\hline
+{\em y0} & coordinata y della casella iniziale (ovvero quella del mangiante) \\
+\hline
+{\em x1} & coordinata x della casella del mangiato ~\newline
+ \\
+\hline
+{\em y1} & coordinata y della casella del mangiato ~\newline
+ \\
+\hline
+{\em xd} & coordinata x della casella di destinazione su cui termina la mossa \\
+\hline
+{\em yd} & coordinata y della casella di destinazione su cui termina la mossa \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Restituisce}
+puntatore alla lista di mosse avente ora una cella in più 
+\end{DoxyReturn}
+\mbox{\Hypertarget{moves__analysis_8h_a8503c3d6170be3274cf875558850595f}\label{moves__analysis_8h_a8503c3d6170be3274cf875558850595f}} 
+\index{moves\_analysis.h@{moves\_analysis.h}!insert\_simple\_shift@{insert\_simple\_shift}}
+\index{insert\_simple\_shift@{insert\_simple\_shift}!moves\_analysis.h@{moves\_analysis.h}}
+\doxysubsubsection{\texorpdfstring{insert\_simple\_shift()}{insert\_simple\_shift()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}}$\ast$ insert\+\_\+simple\+\_\+shift (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$}]{l,  }\item[{\mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$}]{board,  }\item[{int}]{x0,  }\item[{int}]{y0,  }\item[{int}]{xd,  }\item[{int}]{yd }\end{DoxyParamCaption})}
+
+
+
+insert\+\_\+simple\+\_\+shift riempie correttamente i campi della struct \mbox{\hyperlink{structmoves__list}{moves\+\_\+list}} nel caso di spostamento semplice chiamando le funzioni ausiliari sopra descritte 
+
+è chiamata all\textquotesingle{}interno della funzione moves\+\_\+analysis 
+\begin{DoxyParams}{Parametri}
+{\em l} & puntatore alla lista di mosse a cui aggiungere in coda la nuova cella \\
+\hline
+{\em board} & scacchiera prima dell\textquotesingle{}esecuzione della mossa di spostamento semplice che viene poi eseguita all\textquotesingle{}interno di questa funzione \\
+\hline
+{\em x0} & coordinata x della casella iniziale \\
+\hline
+{\em y0} & coordinata y della casella iniziale \\
+\hline
+{\em xd} & coordinata x della casella di destinazione \\
+\hline
+{\em yd} & coordinata y della casella di destinazione \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Restituisce}
+puntatore alla lista di mosse avente ora una cella in più 
+\end{DoxyReturn}
+\mbox{\Hypertarget{moves__analysis_8h_aeb2745fc784f3793532c07e842ff058e}\label{moves__analysis_8h_aeb2745fc784f3793532c07e842ff058e}} 
+\index{moves\_analysis.h@{moves\_analysis.h}!moves\_analysis@{moves\_analysis}}
+\index{moves\_analysis@{moves\_analysis}!moves\_analysis.h@{moves\_analysis.h}}
+\doxysubsubsection{\texorpdfstring{moves\_analysis()}{moves\_analysis()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}}$\ast$ moves\+\_\+analysis (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$}]{l,  }\item[{\mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$}]{board,  }\item[{int}]{player }\end{DoxyParamCaption})}
+
+
+
+moves\+\_\+analysis, analizzando l\textquotesingle{}intera scacchiera, controlla che siano verificate le condizioni necessarie per eseguire una mossa (spostamento semplice o mangiata) 
+
+
+\begin{DoxyParams}{Parametri}
+{\em l} & puntatore alla lista di mosse da popolare \\
+\hline
+{\em board} & scacchiera attuale della partita \\
+\hline
+{\em player} & parametro che indica se è il turno di P\+L\+A\+Y\+E\+R\+\_\+1 o di P\+L\+A\+Y\+E\+R\+\_\+2 \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Restituisce}
+ritorna la lista di mosse popolata (nel caso in cui non ci siano mosse nella lista ritorna il puntatore alla lista vuota) 
+\end{DoxyReturn}
+\mbox{\Hypertarget{moves__analysis_8h_a2463016ef0090061a61c71957486300e}\label{moves__analysis_8h_a2463016ef0090061a61c71957486300e}} 
+\index{moves\_analysis.h@{moves\_analysis.h}!print\_moves@{print\_moves}}
+\index{print\_moves@{print\_moves}!moves\_analysis.h@{moves\_analysis.h}}
+\doxysubsubsection{\texorpdfstring{print\_moves()}{print\_moves()}}
+{\footnotesize\ttfamily void print\+\_\+moves (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$}]{l,  }\item[{int $\ast$}]{n }\end{DoxyParamCaption})}
+
+
+
+print\+\_\+moves scorre la lista di mosse e stampa il contenuto del campo description di ogni cella 
+
+
+\begin{DoxyParams}{Parametri}
+{\em l} & puntatore alla lista di mosse da stampare \\
+\hline
+{\em n} & parametro in cui verrà posto il numero totale di mosse stampate \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{moves__analysis_8h_adddc00fb715a981fd8ae99341c3e7b15}\label{moves__analysis_8h_adddc00fb715a981fd8ae99341c3e7b15}} 
+\index{moves\_analysis.h@{moves\_analysis.h}!simple\_shift@{simple\_shift}}
+\index{simple\_shift@{simple\_shift}!moves\_analysis.h@{moves\_analysis.h}}
+\doxysubsubsection{\texorpdfstring{simple\_shift()}{simple\_shift()}}
+{\footnotesize\ttfamily void simple\+\_\+shift (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$}]{board,  }\item[{int}]{x0,  }\item[{int}]{y0,  }\item[{int}]{xd,  }\item[{int}]{yd }\end{DoxyParamCaption})}
+
+
+
+simple\+\_\+shift esegue lo spostamento semplice da una casella iniziale ad una di destinazione 
+
+copia nella casella di destitazione i campi delle pedine presenti nella casella iniziale e apportando le conseguenti modifiche necessarie 
+\begin{DoxyParams}{Parametri}
+{\em board} & scacchiera su cui eseguire lo spostamento semplice \\
+\hline
+{\em x0} & coordinata x della casella iniziale \\
+\hline
+{\em y0} & coordinata y della casella iniziale \\
+\hline
+{\em xd} & coordinata x della casella di destinazione \\
+\hline
+{\em yd} & coordinata y della casella di destinazione \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{moves__analysis_8h_ae344747ba663bc97aa1bc9e3b62e3c9f}\label{moves__analysis_8h_ae344747ba663bc97aa1bc9e3b62e3c9f}} 
+\index{moves\_analysis.h@{moves\_analysis.h}!union\_list@{union\_list}}
+\index{union\_list@{union\_list}!moves\_analysis.h@{moves\_analysis.h}}
+\doxysubsubsection{\texorpdfstring{union\_list()}{union\_list()}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}}$\ast$ union\+\_\+list (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$}]{head,  }\item[{\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$}]{new\+\_\+list }\end{DoxyParamCaption})}
+
+
+
+union\+\_\+list, date due liste in entrata, accoda la seconda alla prima 
+
+
+\begin{DoxyParams}{Parametri}
+{\em head} & puntatore alla prima lista \\
+\hline
+{\em new\+\_\+list} & puntatore alla seconda lista \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Restituisce}
+puntatore alla prima lista ora modificata 
+\end{DoxyReturn}

@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.17"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Progetto Minilaska:  File sorgente struct.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Progetto Minilaska
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generato da Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Cerca');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Cerca');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">struct.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="struct_8h.html">Vai alla documentazione di questo file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
+<div class="line"><a name="l00004"></a><span class="lineno"><a class="line" href="struct_8h.html#ac25189db92959bff3c6c2adf4c34b50a">    4</a></span>&#160;<span class="preprocessor">#define DIM 7</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160; </div>
+<div class="line"><a name="l00007"></a><span class="lineno"><a class="line" href="struct_8h.html#a246b16b4fade4f30665186ebfaf64f47">    7</a></span>&#160;<span class="preprocessor">#define PLAYER_1 0</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#define PLAYER_2 1</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
+<div class="line"><a name="l00011"></a><span class="lineno"><a class="line" href="struct_8h.html#a87b537f5fa5c109d3c05c13d6b18f382">   11</a></span>&#160;<span class="preprocessor">#define WHITE 0</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#define BLACK 1</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno"><a class="line" href="struct_8h.html#a0b9d8b8fdfe28a1ff9af434becc1cab0">   15</a></span>&#160;<span class="preprocessor">#define SOLDIER 0</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#define OFFICER 1</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="struct_8h.html#a50267d552ca6f788254032e40046b770">   19</a></span>&#160;<span class="preprocessor">#define DEPTH 5</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">/*struct pawn*/</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="structpawn.html">   27</a></span>&#160;<span class="keyword">typedef</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">struct </span><a class="code" href="structpawn.html">pawn</a> {</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keywordtype">int</span> color;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="keywordtype">char</span> name;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keywordtype">char</span> rank;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;} <a class="code" href="struct_8h.html#aed5061f0635fec2d4cb5caebc696efec">pawn_t</a>;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="comment">/*struct col*/</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="structcol.html">   40</a></span>&#160;<span class="keyword">typedef</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">struct </span><a class="code" href="structcol.html">col</a> {</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    <span class="keywordtype">int</span> capacity;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="structcol.html#a377edef9c3166d5822629f784d7d7427">   50</a></span>&#160;    <span class="keywordtype">int</span> <a class="code" href="structcol.html#a377edef9c3166d5822629f784d7d7427">size</a>;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    </div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="comment">//array di struct pawn</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="structcol.html#a1afabfb19b504b139ae5e8c1abb6c6df">   56</a></span>&#160;<span class="comment"></span>    <a class="code" href="structpawn.html">pawn_t</a>* <a class="code" href="structcol.html#a1afabfb19b504b139ae5e8c1abb6c6df">tower</a>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}<a class="code" href="struct_8h.html#acaa213b5f02cf36a63b071e4f719a18a">col_t</a>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="structmoves__list.html">   64</a></span>&#160;<span class="keyword">typedef</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="keyword">struct </span><a class="code" href="structmoves__list.html">moves_list</a>{</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="structmoves__list.html#a17d4713cec898d148d433cfecbb7fed7">   70</a></span>&#160;    <span class="keywordtype">char</span> <a class="code" href="structmoves__list.html#a17d4713cec898d148d433cfecbb7fed7">mandatory</a>; <span class="comment">//0=no, 1=si</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="structmoves__list.html#a6178b8094b5b46297fb26bb64b174e83">   75</a></span>&#160;    <a class="code" href="structcol.html">col_t</a>* <a class="code" href="structmoves__list.html#a6178b8094b5b46297fb26bb64b174e83">board</a>; <span class="comment">//qui inseriremo il new possibile rank della board</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="structmoves__list.html#a4e3f718b00cad02fd7cd0afe0656daa9">   79</a></span>&#160;    <span class="keywordtype">char</span>* <a class="code" href="structmoves__list.html#a4e3f718b00cad02fd7cd0afe0656daa9">description</a>; <span class="comment">//ex. A5 - C7 </span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00082"></a><span class="lineno"><a class="line" href="structmoves__list.html#aa1c87f398401bae5af26219a3c23c695">   82</a></span>&#160;    <span class="keyword">struct </span><a class="code" href="structmoves__list.html">moves_list</a>* <a class="code" href="structmoves__list.html#aa1c87f398401bae5af26219a3c23c695">next</a>;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;}<a class="code" href="struct_8h.html#a4b0f0484e94c7570a528bf3225967a1c">moves_list_t</a>;</div>
+</div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="astructmoves__list_html_aa1c87f398401bae5af26219a3c23c695"><div class="ttname"><a href="structmoves__list.html#aa1c87f398401bae5af26219a3c23c695">moves_list::next</a></div><div class="ttdeci">struct moves_list * next</div><div class="ttdef"><b>Definition:</b> struct.h:82</div></div>
+<div class="ttc" id="astruct_8h_html_acaa213b5f02cf36a63b071e4f719a18a"><div class="ttname"><a href="struct_8h.html#acaa213b5f02cf36a63b071e4f719a18a">col_t</a></div><div class="ttdeci">struct col col_t</div><div class="ttdoc">Struct colonna (in inglese &quot;column&quot; e abbreviato a &quot;col&quot;)</div></div>
+<div class="ttc" id="astruct_8h_html_aed5061f0635fec2d4cb5caebc696efec"><div class="ttname"><a href="struct_8h.html#aed5061f0635fec2d4cb5caebc696efec">pawn_t</a></div><div class="ttdeci">struct pawn pawn_t</div><div class="ttdoc">Struct pedina (in inglese &quot;pawn&quot;)</div></div>
+<div class="ttc" id="astructcol_html"><div class="ttname"><a href="structcol.html">col</a></div><div class="ttdoc">Struct colonna (in inglese &quot;column&quot; e abbreviato a &quot;col&quot;)</div><div class="ttdef"><b>Definition:</b> struct.h:40</div></div>
+<div class="ttc" id="astructcol_html_a1afabfb19b504b139ae5e8c1abb6c6df"><div class="ttname"><a href="structcol.html#a1afabfb19b504b139ae5e8c1abb6c6df">col::tower</a></div><div class="ttdeci">pawn_t * tower</div><div class="ttdef"><b>Definition:</b> struct.h:56</div></div>
+<div class="ttc" id="astruct_8h_html_a4b0f0484e94c7570a528bf3225967a1c"><div class="ttname"><a href="struct_8h.html#a4b0f0484e94c7570a528bf3225967a1c">moves_list_t</a></div><div class="ttdeci">struct moves_list moves_list_t</div><div class="ttdoc">Struct moves_list (ovvero &quot;lista mosse&quot;)</div></div>
+<div class="ttc" id="astructmoves__list_html_a6178b8094b5b46297fb26bb64b174e83"><div class="ttname"><a href="structmoves__list.html#a6178b8094b5b46297fb26bb64b174e83">moves_list::board</a></div><div class="ttdeci">col_t * board</div><div class="ttdef"><b>Definition:</b> struct.h:75</div></div>
+<div class="ttc" id="astructmoves__list_html_a4e3f718b00cad02fd7cd0afe0656daa9"><div class="ttname"><a href="structmoves__list.html#a4e3f718b00cad02fd7cd0afe0656daa9">moves_list::description</a></div><div class="ttdeci">char * description</div><div class="ttdef"><b>Definition:</b> struct.h:79</div></div>
+<div class="ttc" id="astructcol_html_a377edef9c3166d5822629f784d7d7427"><div class="ttname"><a href="structcol.html#a377edef9c3166d5822629f784d7d7427">col::size</a></div><div class="ttdeci">int size</div><div class="ttdef"><b>Definition:</b> struct.h:50</div></div>
+<div class="ttc" id="astructpawn_html"><div class="ttname"><a href="structpawn.html">pawn</a></div><div class="ttdoc">Struct pedina (in inglese &quot;pawn&quot;)</div><div class="ttdef"><b>Definition:</b> struct.h:27</div></div>
+<div class="ttc" id="astructmoves__list_html_a17d4713cec898d148d433cfecbb7fed7"><div class="ttname"><a href="structmoves__list.html#a17d4713cec898d148d433cfecbb7fed7">moves_list::mandatory</a></div><div class="ttdeci">char mandatory</div><div class="ttdef"><b>Definition:</b> struct.h:70</div></div>
+<div class="ttc" id="astructmoves__list_html"><div class="ttname"><a href="structmoves__list.html">moves_list</a></div><div class="ttdoc">Struct moves_list (ovvero &quot;lista mosse&quot;)</div><div class="ttdef"><b>Definition:</b> struct.h:64</div></div>
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generato da &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.17
+</small></address>
+</body>
+</html>

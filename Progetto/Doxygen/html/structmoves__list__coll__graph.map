@@ -1,0 +1,5 @@
+<map id="moves_list" name="moves_list">
+<area shape="rect" id="node1" title="Struct moves_list (ovvero &quot;lista mosse&quot;)" alt="" coords="5,184,99,211"/>
+<area shape="rect" id="node2" href="$structcol.html" title="Struct colonna (in inglese &quot;column&quot; e abbreviato a &quot;col&quot;)" alt="" coords="31,95,73,121"/>
+<area shape="rect" id="node3" href="$structpawn.html" title="Struct pedina (in inglese &quot;pawn&quot;)" alt="" coords="23,5,81,32"/>
+</map>

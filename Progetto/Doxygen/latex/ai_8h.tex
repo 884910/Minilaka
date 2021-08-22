@@ -1,0 +1,131 @@
+\hypertarget{ai_8h}{}\doxysection{Riferimenti per il file ai.\+h}
+\label{ai_8h}\index{ai.h@{ai.h}}
+{\ttfamily \#include \char`\"{}moves\+\_\+analysis.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$limits.\+h$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+Grafo delle dipendenze di inclusione per ai.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=350pt]{ai_8h__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Funzioni}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{ai_8h_af795362ab649d64679b2079475afb630}{evaluation}} (\mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$board)
+\begin{DoxyCompactList}\small\item\em evaluation conta le pedine in cima ad una torre e le pedine singole presenti sulla scacchiera, distinguendole in base al colore (W\+H\+I\+T\+E/\+B\+L\+A\+CK), per determinare quale dei due giocatori è in vantaggio \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{ai_8h_a843ad198685b49165b8a2f773d042b41}{max}} (int n1, int n2)
+\begin{DoxyCompactList}\small\item\em max determina il massimo tra due numeri \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{ai_8h_a75178646b4e1ede5999ecba6d8b807eb}{min}} (int n1, int n2)
+\begin{DoxyCompactList}\small\item\em min determina il minimo tra due numeri \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{ai_8h_a0df0045d1d86efe9832f8ce608080c49}{minimax}} (\mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$board, int depth, int player)
+\begin{DoxyCompactList}\small\item\em minimax implementa ricorsivamente l\textquotesingle{}omonimo algoritmo \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{ai_8h_ae4ac0f9980f532f175ac40cf00fe4176}{macro\+\_\+ai}} (\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$l, int depth, int player)
+\begin{DoxyCompactList}\small\item\em macro\+\_\+ai scorre la lista di mosse e per ciascuna chiama la funzione minimax \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Documentazione delle funzioni}
+\mbox{\Hypertarget{ai_8h_af795362ab649d64679b2079475afb630}\label{ai_8h_af795362ab649d64679b2079475afb630}} 
+\index{ai.h@{ai.h}!evaluation@{evaluation}}
+\index{evaluation@{evaluation}!ai.h@{ai.h}}
+\doxysubsubsection{\texorpdfstring{evaluation()}{evaluation()}}
+{\footnotesize\ttfamily int evaluation (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$}]{board }\end{DoxyParamCaption})}
+
+
+
+evaluation conta le pedine in cima ad una torre e le pedine singole presenti sulla scacchiera, distinguendole in base al colore (W\+H\+I\+T\+E/\+B\+L\+A\+CK), per determinare quale dei due giocatori è in vantaggio 
+
+in particolare viene utilizzata una variabile counter che viene incrementata per ogni pedina W\+H\+I\+TE trovata e decrementata per ogni pedina B\+L\+A\+CK trovata 
+\begin{DoxyParams}{Parametri}
+{\em board} & scacchiera da valutare \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Restituisce}
+ritorna counter, variabile che ha valore positivo se il vantaggio appartiene al C\+O\+M\+P\+U\+T\+ER altrimenti, se il vantaggio appartiene all\textquotesingle{} U\+T\+E\+N\+TE, ha valore negativo 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ai_8h_ae4ac0f9980f532f175ac40cf00fe4176}\label{ai_8h_ae4ac0f9980f532f175ac40cf00fe4176}} 
+\index{ai.h@{ai.h}!macro\_ai@{macro\_ai}}
+\index{macro\_ai@{macro\_ai}!ai.h@{ai.h}}
+\doxysubsubsection{\texorpdfstring{macro\_ai()}{macro\_ai()}}
+{\footnotesize\ttfamily int macro\+\_\+ai (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_8h_a4b0f0484e94c7570a528bf3225967a1c}{moves\+\_\+list\+\_\+t}} $\ast$}]{l,  }\item[{int}]{depth,  }\item[{int}]{player }\end{DoxyParamCaption})}
+
+
+
+macro\+\_\+ai scorre la lista di mosse e per ciascuna chiama la funzione minimax 
+
+i valori ritornati dalle varie chiamate alla funzione minimax vengono tra loro confrontati per trovare il maggiore 
+\begin{DoxyParams}{Parametri}
+{\em l} & puntatore alla lista di mosse \\
+\hline
+{\em depth} & profondità da passare come parametro in ingresso ad ogni chiamata alla funzione minimax \\
+\hline
+{\em player} & parametro che ha sempre valore 0 in quanto macro\+\_\+ai è chiamata sempre e solo durante il turno del C\+O\+M\+P\+U\+T\+ER (che è W\+H\+I\+TE di default) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Restituisce}
+ritorna il numero corrispondente alla mossa scelta dal C\+O\+M\+P\+U\+T\+ER 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ai_8h_a843ad198685b49165b8a2f773d042b41}\label{ai_8h_a843ad198685b49165b8a2f773d042b41}} 
+\index{ai.h@{ai.h}!max@{max}}
+\index{max@{max}!ai.h@{ai.h}}
+\doxysubsubsection{\texorpdfstring{max()}{max()}}
+{\footnotesize\ttfamily int max (\begin{DoxyParamCaption}\item[{int}]{n1,  }\item[{int}]{n2 }\end{DoxyParamCaption})}
+
+
+
+max determina il massimo tra due numeri 
+
+
+\begin{DoxyParams}{Parametri}
+{\em n1} & primo dei due numeri passati in ingresso \\
+\hline
+{\em n2} & secondo dei due numeri passati in ingresso \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Restituisce}
+ritorna il massimo tra i due numeri passati in ingresso 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ai_8h_a75178646b4e1ede5999ecba6d8b807eb}\label{ai_8h_a75178646b4e1ede5999ecba6d8b807eb}} 
+\index{ai.h@{ai.h}!min@{min}}
+\index{min@{min}!ai.h@{ai.h}}
+\doxysubsubsection{\texorpdfstring{min()}{min()}}
+{\footnotesize\ttfamily int min (\begin{DoxyParamCaption}\item[{int}]{n1,  }\item[{int}]{n2 }\end{DoxyParamCaption})}
+
+
+
+min determina il minimo tra due numeri 
+
+
+\begin{DoxyParams}{Parametri}
+{\em n1} & primo dei due numeri passati in ingresso \\
+\hline
+{\em n2} & secondo dei due numeri passati in ingresso \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Restituisce}
+ritorna il minimo tra i due numeri passati in ingresso 
+\end{DoxyReturn}
+\mbox{\Hypertarget{ai_8h_a0df0045d1d86efe9832f8ce608080c49}\label{ai_8h_a0df0045d1d86efe9832f8ce608080c49}} 
+\index{ai.h@{ai.h}!minimax@{minimax}}
+\index{minimax@{minimax}!ai.h@{ai.h}}
+\doxysubsubsection{\texorpdfstring{minimax()}{minimax()}}
+{\footnotesize\ttfamily int minimax (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$}]{board,  }\item[{int}]{depth,  }\item[{int}]{player }\end{DoxyParamCaption})}
+
+
+
+minimax implementa ricorsivamente l\textquotesingle{}omonimo algoritmo 
+
+
+\begin{DoxyParams}{Parametri}
+{\em board} & scacchiera da cui valutare il possibile vantaggio ottenibile a partire da una certa mossa \\
+\hline
+{\em depth} & profondità a cui arrivano le chiamate ricorsive \\
+\hline
+{\em player} & parametro che indica se è il turno del C\+O\+M\+P\+U\+T\+ER o dell\textquotesingle{}U\+T\+E\+N\+TE \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Restituisce}
+ritorna il massimo valore ottenibile (nel caso sia il turno di W\+H\+I\+TE) o il minimo valore ottenibile (nel caso sia il turno di B\+L\+A\+CK) 
+\end{DoxyReturn}

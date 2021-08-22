@@ -1,0 +1,118 @@
+\hypertarget{board_8h}{}\doxysection{Riferimenti per il file board.\+h}
+\label{board_8h}\index{board.h@{board.h}}
+{\ttfamily \#include \char`\"{}struct.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+Grafo delle dipendenze di inclusione per board.\+h\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=273pt]{board_8h__incl}
+\end{center}
+\end{figure}
+Questo grafo mostra quali altri file includono direttamente o indirettamente questo file\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=184pt]{board_8h__dep__incl}
+\end{center}
+\end{figure}
+\doxysubsection*{Funzioni}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{board_8h_a9820a3394fbcc6e7615c98af4d4565e0}{copy\+\_\+pawn}} (\mbox{\hyperlink{struct_8h_aed5061f0635fec2d4cb5caebc696efec}{pawn\+\_\+t}} $\ast$p\+\_\+dst, \mbox{\hyperlink{struct_8h_aed5061f0635fec2d4cb5caebc696efec}{pawn\+\_\+t}} $\ast$p\+\_\+src)
+\begin{DoxyCompactList}\small\item\em copy\+\_\+pawn copia i valori dei campi della pedina p\+\_\+src all\textquotesingle{}interno dei campi della pedina p\+\_\+dst \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{board_8h_aa171df0016f064689ba8252b2fd07bfe}{copy\+\_\+board}} (\mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$src, \mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$dst)
+\begin{DoxyCompactList}\small\item\em copy\+\_\+board copia ogni pedina della scacchiera \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{board_8h_a3c331bcc33dd47dc37037d7e4fdd5df3}{check\+\_\+and\+\_\+do\+\_\+promotion}} (\mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$board, int to\+\_\+print)
+\begin{DoxyCompactList}\small\item\em check\+\_\+and\+\_\+do\+\_\+promotion promuove una pedina da S\+O\+L\+D\+I\+ER a O\+F\+F\+I\+C\+ER se si verificano le condizioni necessarie \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{board_8h_ac684d9c42f35ccce0da19024e103d2d4}{matrix}} (\mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$board)
+\begin{DoxyCompactList}\small\item\em matrix crea la scacchiera iniziale su cui ha inizio la partita \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{board_8h_ae07dcbfd1e2f55a6791a783babcffa1c}{field}} (\mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$board)
+\begin{DoxyCompactList}\small\item\em field stampa la scacchiera passata in entrata \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Documentazione delle funzioni}
+\mbox{\Hypertarget{board_8h_a3c331bcc33dd47dc37037d7e4fdd5df3}\label{board_8h_a3c331bcc33dd47dc37037d7e4fdd5df3}} 
+\index{board.h@{board.h}!check\_and\_do\_promotion@{check\_and\_do\_promotion}}
+\index{check\_and\_do\_promotion@{check\_and\_do\_promotion}!board.h@{board.h}}
+\doxysubsubsection{\texorpdfstring{check\_and\_do\_promotion()}{check\_and\_do\_promotion()}}
+{\footnotesize\ttfamily void check\+\_\+and\+\_\+do\+\_\+promotion (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$}]{board,  }\item[{int}]{to\+\_\+print }\end{DoxyParamCaption})}
+
+
+
+check\+\_\+and\+\_\+do\+\_\+promotion promuove una pedina da S\+O\+L\+D\+I\+ER a O\+F\+F\+I\+C\+ER se si verificano le condizioni necessarie 
+
+controlla se nella prima e nell\textquotesingle{}ultima riga sono presenti rispettivamente pedine nere e pedine bianche, in caso affermativo ne cambia lo stato e il nome 
+\begin{DoxyParams}{Parametri}
+{\em board} & scacchiera da controllare \\
+\hline
+{\em to\+\_\+print} & vale 1 se si vuole stampare un messaggio di avviso e vale 0 altrimenti (nella funzione ricorsiva \mbox{\hyperlink{ai_8h_a0df0045d1d86efe9832f8ce608080c49}{minimax()}} to\+\_\+print è posta pari a 0) \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{board_8h_aa171df0016f064689ba8252b2fd07bfe}\label{board_8h_aa171df0016f064689ba8252b2fd07bfe}} 
+\index{board.h@{board.h}!copy\_board@{copy\_board}}
+\index{copy\_board@{copy\_board}!board.h@{board.h}}
+\doxysubsubsection{\texorpdfstring{copy\_board()}{copy\_board()}}
+{\footnotesize\ttfamily void copy\+\_\+board (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$}]{src,  }\item[{\mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$}]{dst }\end{DoxyParamCaption})}
+
+
+
+copy\+\_\+board copia ogni pedina della scacchiera 
+
+copy\+\_\+board \char`\"{}tocca\char`\"{} ogni pedina presente sulla scacchiera e chiama la funzione copy\+\_\+pawn per ogni pedina da copiare 
+\begin{DoxyParams}{Parametri}
+{\em src} & scacchiera da copiare \\
+\hline
+{\em dst} & scacchiera di destinazione \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{board_8h_a9820a3394fbcc6e7615c98af4d4565e0}\label{board_8h_a9820a3394fbcc6e7615c98af4d4565e0}} 
+\index{board.h@{board.h}!copy\_pawn@{copy\_pawn}}
+\index{copy\_pawn@{copy\_pawn}!board.h@{board.h}}
+\doxysubsubsection{\texorpdfstring{copy\_pawn()}{copy\_pawn()}}
+{\footnotesize\ttfamily void copy\+\_\+pawn (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_8h_aed5061f0635fec2d4cb5caebc696efec}{pawn\+\_\+t}} $\ast$}]{p\+\_\+dst,  }\item[{\mbox{\hyperlink{struct_8h_aed5061f0635fec2d4cb5caebc696efec}{pawn\+\_\+t}} $\ast$}]{p\+\_\+src }\end{DoxyParamCaption})}
+
+
+
+copy\+\_\+pawn copia i valori dei campi della pedina p\+\_\+src all\textquotesingle{}interno dei campi della pedina p\+\_\+dst 
+
+
+\begin{DoxyParams}{Parametri}
+{\em p\+\_\+dst} & struct pedina di destinazione \\
+\hline
+{\em p\+\_\+src} & struct pedina da copiare \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{board_8h_ae07dcbfd1e2f55a6791a783babcffa1c}\label{board_8h_ae07dcbfd1e2f55a6791a783babcffa1c}} 
+\index{board.h@{board.h}!field@{field}}
+\index{field@{field}!board.h@{board.h}}
+\doxysubsubsection{\texorpdfstring{field()}{field()}}
+{\footnotesize\ttfamily void field (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$}]{board }\end{DoxyParamCaption})}
+
+
+
+field stampa la scacchiera passata in entrata 
+
+field è chiamata dopo ogni mossa per mostrare il campo di gioco aggiornato 
+\begin{DoxyParams}{Parametri}
+{\em board} & scacchiera da stampare \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{board_8h_ac684d9c42f35ccce0da19024e103d2d4}\label{board_8h_ac684d9c42f35ccce0da19024e103d2d4}} 
+\index{board.h@{board.h}!matrix@{matrix}}
+\index{matrix@{matrix}!board.h@{board.h}}
+\doxysubsubsection{\texorpdfstring{matrix()}{matrix()}}
+{\footnotesize\ttfamily void matrix (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$}]{board }\end{DoxyParamCaption})}
+
+
+
+matrix crea la scacchiera iniziale su cui ha inizio la partita 
+
+Inizializza correttamente ogni casella della scacchiera allocando dinamicamente lo spazio in memoria necessario 
+\begin{DoxyParams}{Parametri}
+{\em board} & matrice di 7x7 col\+\_\+t da inizilizzare a scacchiera \\
+\hline
+\end{DoxyParams}

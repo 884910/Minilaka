@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=9"/>
+<meta name="generator" content="Doxygen 1.8.17"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Progetto Minilaska:  File sorgente ai.h</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr style="height: 56px;">
+  <td id="projectalign" style="padding-left: 0.5em;">
+   <div id="projectname">Progetto Minilaska
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Generato da Doxygen 1.8.17 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+var searchBox = new SearchBox("searchBox", "search",false,'Cerca');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:cf05388f2679ee054f2beb29a391d25f4e673ac3&amp;dn=gpl-2.0.txt GPL-v2 */
+$(function() {
+  initMenu('',true,false,'search.php','Cerca');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */</script>
+<div id="main-nav"></div>
+</div><!-- top -->
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<iframe src="javascript:void(0)" frameborder="0" 
+        name="MSearchResults" id="MSearchResults">
+</iframe>
+</div>
+
+<div class="header">
+  <div class="headertitle">
+<div class="title">ai.h</div>  </div>
+</div><!--header-->
+<div class="contents">
+<a href="ai_8h.html">Vai alla documentazione di questo file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
+<div class="line"><a name="l00003"></a><span class="lineno">    3</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="moves__analysis_8h.html">moves_analysis.h</a>&quot;</span></div>
+<div class="line"><a name="l00004"></a><span class="lineno">    4</span>&#160;<span class="preprocessor">#include &lt;limits.h&gt;</span></div>
+<div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="preprocessor">#include &lt;math.h&gt;</span></div>
+<div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ai_8h.html#af795362ab649d64679b2079475afb630">evaluation</a> (<a class="code" href="structcol.html">col_t</a>* board);</div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ai_8h.html#a843ad198685b49165b8a2f773d042b41">max</a>(<span class="keywordtype">int</span> n1, <span class="keywordtype">int</span> n2);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ai_8h.html#a75178646b4e1ede5999ecba6d8b807eb">min</a>(<span class="keywordtype">int</span> n1, <span class="keywordtype">int</span> n2);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ai_8h.html#a0df0045d1d86efe9832f8ce608080c49">minimax</a>(<a class="code" href="structcol.html">col_t</a>* board, <span class="keywordtype">int</span> depth, <span class="keywordtype">int</span> player);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="keywordtype">int</span> <a class="code" href="ai_8h.html#ae4ac0f9980f532f175ac40cf00fe4176">macro_ai</a> (<a class="code" href="structmoves__list.html">moves_list_t</a>* l, <span class="keywordtype">int</span> depth, <span class="keywordtype">int</span> player);</div>
+</div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="aai_8h_html_a0df0045d1d86efe9832f8ce608080c49"><div class="ttname"><a href="ai_8h.html#a0df0045d1d86efe9832f8ce608080c49">minimax</a></div><div class="ttdeci">int minimax(col_t *board, int depth, int player)</div><div class="ttdoc">minimax implementa ricorsivamente l'omonimo algoritmo</div><div class="ttdef"><b>Definition:</b> ai.c:39</div></div>
+<div class="ttc" id="aai_8h_html_a75178646b4e1ede5999ecba6d8b807eb"><div class="ttname"><a href="ai_8h.html#a75178646b4e1ede5999ecba6d8b807eb">min</a></div><div class="ttdeci">int min(int n1, int n2)</div><div class="ttdoc">min determina il minimo tra due numeri</div><div class="ttdef"><b>Definition:</b> ai.c:31</div></div>
+<div class="ttc" id="astructcol_html"><div class="ttname"><a href="structcol.html">col</a></div><div class="ttdoc">Struct colonna (in inglese &quot;column&quot; e abbreviato a &quot;col&quot;)</div><div class="ttdef"><b>Definition:</b> struct.h:40</div></div>
+<div class="ttc" id="aai_8h_html_a843ad198685b49165b8a2f773d042b41"><div class="ttname"><a href="ai_8h.html#a843ad198685b49165b8a2f773d042b41">max</a></div><div class="ttdeci">int max(int n1, int n2)</div><div class="ttdoc">max determina il massimo tra due numeri</div><div class="ttdef"><b>Definition:</b> ai.c:23</div></div>
+<div class="ttc" id="amoves__analysis_8h_html"><div class="ttname"><a href="moves__analysis_8h.html">moves_analysis.h</a></div></div>
+<div class="ttc" id="aai_8h_html_af795362ab649d64679b2079475afb630"><div class="ttname"><a href="ai_8h.html#af795362ab649d64679b2079475afb630">evaluation</a></div><div class="ttdeci">int evaluation(col_t *board)</div><div class="ttdoc">evaluation conta le pedine in cima ad una torre e le pedine singole presenti sulla scacchiera,...</div><div class="ttdef"><b>Definition:</b> ai.c:3</div></div>
+<div class="ttc" id="astructmoves__list_html"><div class="ttname"><a href="structmoves__list.html">moves_list</a></div><div class="ttdoc">Struct moves_list (ovvero &quot;lista mosse&quot;)</div><div class="ttdef"><b>Definition:</b> struct.h:64</div></div>
+<div class="ttc" id="aai_8h_html_ae4ac0f9980f532f175ac40cf00fe4176"><div class="ttname"><a href="ai_8h.html#ae4ac0f9980f532f175ac40cf00fe4176">macro_ai</a></div><div class="ttdeci">int macro_ai(moves_list_t *l, int depth, int player)</div><div class="ttdoc">macro_ai scorre la lista di mosse e per ciascuna chiama la funzione minimax</div><div class="ttdef"><b>Definition:</b> ai.c:83</div></div>
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Generato da &#160;<a href="http://www.doxygen.org/index.html">
+<img class="footer" src="doxygen.png" alt="doxygen"/>
+</a> 1.8.17
+</small></address>
+</body>
+</html>

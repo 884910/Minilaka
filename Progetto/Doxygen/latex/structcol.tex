@@ -1,0 +1,62 @@
+\hypertarget{structcol}{}\doxysection{Riferimenti per la struct col}
+\label{structcol}\index{col@{col}}
+
+
+Struct colonna (in inglese \char`\"{}column\char`\"{} e abbreviato a \char`\"{}col\char`\"{})  
+
+
+
+
+{\ttfamily \#include $<$struct.\+h$>$}
+
+
+
+Diagramma di collaborazione per col\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=133pt]{structcol__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Campi}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{structcol_a5cb2aa75d9545d594c509b83c0ffc88a}\label{structcol_a5cb2aa75d9545d594c509b83c0ffc88a}} 
+int {\bfseries capacity}
+\item 
+int \mbox{\hyperlink{structcol_a377edef9c3166d5822629f784d7d7427}{size}}
+\item 
+\mbox{\hyperlink{struct_8h_aed5061f0635fec2d4cb5caebc696efec}{pawn\+\_\+t}} $\ast$ \mbox{\hyperlink{structcol_a1afabfb19b504b139ae5e8c1abb6c6df}{tower}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descrizione dettagliata}
+Struct colonna (in inglese \char`\"{}column\char`\"{} e abbreviato a \char`\"{}col\char`\"{}) 
+
+E\textquotesingle{} definita dai campi capacity (pari a 3), size e tower 
+
+\doxysubsection{Documentazione dei campi}
+\mbox{\Hypertarget{structcol_a377edef9c3166d5822629f784d7d7427}\label{structcol_a377edef9c3166d5822629f784d7d7427}} 
+\index{col@{col}!size@{size}}
+\index{size@{size}!col@{col}}
+\doxysubsubsection{\texorpdfstring{size}{size}}
+{\footnotesize\ttfamily int col\+::size}
+
+IL campo size può assumere i valori\+:
+\begin{DoxyItemize}
+\item 0 se la casella è vuota
+\item 1 se è presente una sola pedina sulla casella
+\item 2 se è presente una torre di due pedine sulla casella
+\item 3 se è presente una torre di tre pedine sulla casella 
+\end{DoxyItemize}\mbox{\Hypertarget{structcol_a1afabfb19b504b139ae5e8c1abb6c6df}\label{structcol_a1afabfb19b504b139ae5e8c1abb6c6df}} 
+\index{col@{col}!tower@{tower}}
+\index{tower@{tower}!col@{col}}
+\doxysubsubsection{\texorpdfstring{tower}{tower}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_8h_aed5061f0635fec2d4cb5caebc696efec}{pawn\+\_\+t}}$\ast$ col\+::tower}
+
+Il campo tower ha tipo pawn\+\_\+t$\ast$ poichè è un array di pedine che vanno a costituire una torre alta al massimo 3 
+
+La documentazione per questa struct è stata generata a partire dal seguente file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_8h}{struct.\+h}}\end{DoxyCompactItemize}

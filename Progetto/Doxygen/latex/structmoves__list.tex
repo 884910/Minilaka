@@ -1,0 +1,73 @@
+\hypertarget{structmoves__list}{}\doxysection{Riferimenti per la struct moves\+\_\+list}
+\label{structmoves__list}\index{moves\_list@{moves\_list}}
+
+
+Struct \mbox{\hyperlink{structmoves__list}{moves\+\_\+list}} (ovvero \char`\"{}lista mosse\char`\"{})  
+
+
+
+
+{\ttfamily \#include $<$struct.\+h$>$}
+
+
+
+Diagramma di collaborazione per moves\+\_\+list\+:
+\nopagebreak
+\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[width=193pt]{structmoves__list__coll__graph}
+\end{center}
+\end{figure}
+\doxysubsection*{Campi}
+\begin{DoxyCompactItemize}
+\item 
+char \mbox{\hyperlink{structmoves__list_a17d4713cec898d148d433cfecbb7fed7}{mandatory}}
+\item 
+\mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}} $\ast$ \mbox{\hyperlink{structmoves__list_a6178b8094b5b46297fb26bb64b174e83}{board}}
+\item 
+char $\ast$ \mbox{\hyperlink{structmoves__list_a4e3f718b00cad02fd7cd0afe0656daa9}{description}}
+\item 
+struct \mbox{\hyperlink{structmoves__list}{moves\+\_\+list}} $\ast$ \mbox{\hyperlink{structmoves__list_aa1c87f398401bae5af26219a3c23c695}{next}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Descrizione dettagliata}
+Struct \mbox{\hyperlink{structmoves__list}{moves\+\_\+list}} (ovvero \char`\"{}lista mosse\char`\"{}) 
+
+E\textquotesingle{} definita dai campi mandatory, board, description e next 
+
+\doxysubsection{Documentazione dei campi}
+\mbox{\Hypertarget{structmoves__list_a6178b8094b5b46297fb26bb64b174e83}\label{structmoves__list_a6178b8094b5b46297fb26bb64b174e83}} 
+\index{moves\_list@{moves\_list}!board@{board}}
+\index{board@{board}!moves\_list@{moves\_list}}
+\doxysubsubsection{\texorpdfstring{board}{board}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_8h_acaa213b5f02cf36a63b071e4f719a18a}{col\+\_\+t}}$\ast$ moves\+\_\+list\+::board}
+
+Il campo board rappresenta come sarebbe il campo di gioco se venisse effettuata la mossa. Ha tipo col\+\_\+t$\ast$ poichè ognuna delle 49 caselle della scacchiera è di tipo col\+\_\+t \mbox{\Hypertarget{structmoves__list_a4e3f718b00cad02fd7cd0afe0656daa9}\label{structmoves__list_a4e3f718b00cad02fd7cd0afe0656daa9}} 
+\index{moves\_list@{moves\_list}!description@{description}}
+\index{description@{description}!moves\_list@{moves\_list}}
+\doxysubsubsection{\texorpdfstring{description}{description}}
+{\footnotesize\ttfamily char$\ast$ moves\+\_\+list\+::description}
+
+Il campo description ha tipo char$\ast$ poichè è un array di caratteri rappresentante le caselle coinvolte nella dinamica della mossa \mbox{\Hypertarget{structmoves__list_a17d4713cec898d148d433cfecbb7fed7}\label{structmoves__list_a17d4713cec898d148d433cfecbb7fed7}} 
+\index{moves\_list@{moves\_list}!mandatory@{mandatory}}
+\index{mandatory@{mandatory}!moves\_list@{moves\_list}}
+\doxysubsubsection{\texorpdfstring{mandatory}{mandatory}}
+{\footnotesize\ttfamily char moves\+\_\+list\+::mandatory}
+
+La variabile mandatory definisce l\textquotesingle{}obbligatorietà della mossa, pertanto assume i valori\+:
+\begin{DoxyItemize}
+\item 0 se la mossa è uno spostamento semplice (senza mangiata)
+\item 1 se la mossa è una mangiata 
+\end{DoxyItemize}\mbox{\Hypertarget{structmoves__list_aa1c87f398401bae5af26219a3c23c695}\label{structmoves__list_aa1c87f398401bae5af26219a3c23c695}} 
+\index{moves\_list@{moves\_list}!next@{next}}
+\index{next@{next}!moves\_list@{moves\_list}}
+\doxysubsubsection{\texorpdfstring{next}{next}}
+{\footnotesize\ttfamily struct \mbox{\hyperlink{structmoves__list}{moves\+\_\+list}}$\ast$ moves\+\_\+list\+::next}
+
+Il campo next è il puntatore alla prossima cella della lista 
+
+La documentazione per questa struct è stata generata a partire dal seguente file\+:\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_8h}{struct.\+h}}\end{DoxyCompactItemize}
