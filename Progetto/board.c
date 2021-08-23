@@ -11,9 +11,8 @@ void copy_board(col_t* src, col_t* dst){
 	for(i=0;i<DIM;i++){									
 		for(j=0;j<DIM;j++){
 			if(src[i*DIM+j].tower!=NULL){
-				if(dst[i*DIM+j].tower == NULL){
-					dst[i*DIM+j].tower = (pawn_t*) malloc(sizeof(pawn_t) * 3);
-				}
+				dst[i*DIM+j].tower = (pawn_t*) malloc(sizeof(pawn_t) * 3);
+				
 				for(k=0;k<3;k++){
 					copy_pawn(&(dst[i*DIM+j].tower[k]),&(src[i*DIM+j].tower[k]));
 				}
