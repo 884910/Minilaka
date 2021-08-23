@@ -47,6 +47,7 @@ void fill_description1 (char* desc, int x0, int y0, int xd, int yd){
 	desc[2] = '-';
 	desc[3] = xd + 'A';
 	desc[4] = yd + '1';
+	desc[5] = '\0';
 }
 
 void fill_description2 (char* desc, int x0, int y0, int x1, int y1, int xd, int yd){ 
@@ -58,6 +59,7 @@ void fill_description2 (char* desc, int x0, int y0, int x1, int y1, int xd, int 
 	desc[5] = '-';
 	desc[6] = xd + 'A';
 	desc[7] = yd + '1';
+	desc[8] = '\0';
 }
 
 moves_list_t *union_list(moves_list_t* head, moves_list_t* new_list){ 
