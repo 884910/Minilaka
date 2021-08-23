@@ -48,10 +48,10 @@ int main (){
 			if(player == PLAYER_1){
 				choice = macro_ai(l, DEPTH, player);
 				copy_board(estract(l,choice),board);
-				//to_print description mossa choice
+				//stampa la descrizione della mossa scelta
 				printf("W ha giocato %s\n",estract_description(l, choice));
 			}else{ //se gioca l'utente
-				/*to_print list mosse*/
+				/*stampa la lista delle mosse*/
 				print_moves(l, &n);
 				
 				/*acquisisci ed esegui la mossa scelta*/
@@ -85,7 +85,7 @@ int main (){
 
 			l = filter(l);
 
-			/*to_print list mosse*/
+			/*stampa lista mosse*/
 			print_moves(l, &n);
 				
 
