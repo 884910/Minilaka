@@ -45,7 +45,7 @@ void check_and_do_promotion (col_t* board, int to_print){
                 board[0+j].tower[0].rank = OFFICER;
                 board[0+j].tower[0].name -= 32;
 				if(to_print){
-					printf("%c1 è rank promosso", j+65);
+					printf("%c1 è stato promosso", j+65);
 				}
                 //to_print == 0 solo in minimax() che è ricorsiva
             }
